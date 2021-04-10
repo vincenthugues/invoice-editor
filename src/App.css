@@ -2,20 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: #15303c;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +13,79 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+@media print
+{    
+  .no-print, .no-print *
+  {
+    display: none !important;
+  }
+
+  * {
+    font-size: 9px;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 {
+  font-size: 2.5rem;
+}
+
+.Invoice {
+  max-width: 800px;
+  margin: 1em auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.InvoiceRow {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.InvoiceRowBlock {
+  flex: 1 0 auto;
+  flex-flow: column nowrap;
+  white-space: pre-wrap;
+}
+
+.Invoice table {
+  border-collapse: collapse;
+  margin: .8em auto;
+}
+
+.Invoice thead {
+  font-weight: bold;
+}
+
+.Invoice td {
+  border: 1px solid;
+  padding: 8px;
+  white-space: pre-wrap;
+}
+
+.Invoice tbody td:nth-child(1) {
+  text-align: left;
+}
+
+.Invoice .CellRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.EditableContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.EditableField {
+  flex: 1 0;
+}
+
+.EditableButtons {
+  flex: 0 1;
+}
+
+hr {
+  width: 90%;
 }
