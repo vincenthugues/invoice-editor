@@ -1,17 +1,14 @@
-import { useServiceProvisions } from "../hooks";
+import { usePersonalInfo, useServiceProvisions } from "../hooks";
 import { addDaysToDate, formatCurrency } from "../utils";
 import ServiceProvisions from "./ServiceProvisions";
 
 const {
-  REACT_APP_NAME: name,
-  REACT_APP_PERSONAL_INFO: personalInfo,
-  REACT_APP_CONTACT_INFO: contactInfo,
-  REACT_APP_SIRET: siret,
   REACT_APP_CLIENT: clientName,
   REACT_APP_PATIENT: patientName,
 } = process.env;
 
 const InvoiceHeader = ({ invoiceNumber }) => {
+  const [{ name, personalDetails, contactInfo }] = usePersonalInfo();
   const invoiceDate = new Date();
   const deadline = addDaysToDate(invoiceDate, 30);
 
@@ -20,7 +17,7 @@ const InvoiceHeader = ({ invoiceNumber }) => {
       <div className="InvoiceRowBlock" align="left">
         <b>{name}</b>
         <br />
-        {personalInfo}
+        {personalDetails}
         <br />
         <br />
         {contactInfo}
@@ -54,6 +51,7 @@ const InvoiceHeader = ({ invoiceNumber }) => {
 };
 
 const Invoice = () => {
+  const [{ siret }] = usePersonalInfo();
   const rate = Number(process.env.REACT_APP_RATE);
   const tva = 0;
   const invoiceNumber = "20201043";
