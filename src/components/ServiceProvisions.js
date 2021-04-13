@@ -20,7 +20,7 @@ const ServiceProvision = ({ heading, details, hours, fieldUpdater }) => (
       <div className="CellRow">
         <EditableText
           value={hours}
-          onChange={fieldUpdater("hous")}
+          onChange={fieldUpdater("hours")}
           field="number"
         />
         h
