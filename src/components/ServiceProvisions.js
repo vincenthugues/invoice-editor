@@ -1,4 +1,3 @@
-import { useServiceProvisions } from "../hooks";
 import { formatCurrency } from "../utils";
 import EditableText from "./EditableText";
 
@@ -31,31 +30,27 @@ const ServiceProvision = ({ heading, details, hours, fieldUpdater }) => (
   </tr>
 );
 
-const ServiceProvisions = () => {
-  const [serviceProvisions, setServiceProvisions] = useServiceProvisions();
-
-  return (
-    <>
-      {serviceProvisions.map(({ heading, details, hours }, index) => (
-        <ServiceProvision
-          key={index}
-          heading={heading}
-          details={details}
-          hours={hours}
-          fieldUpdater={(fieldName) => (value) => {
-            setServiceProvisions([
-              ...serviceProvisions.slice(0, index),
-              {
-                ...serviceProvisions[index],
-                [fieldName]: value,
-              },
-              ...serviceProvisions.slice(index + 1),
-            ]);
-          }}
-        />
-      ))}
-    </>
-  );
-};
+const ServiceProvisions = ({ serviceProvisions, onChange }) => (
+  <>
+    {serviceProvisions.map(({ heading, details, hours }, index) => (
+      <ServiceProvision
+        key={index}
+        heading={heading}
+        details={details}
+        hours={hours}
+        fieldUpdater={(fieldName) => (value) => {
+          onChange([
+            ...serviceProvisions.slice(0, index),
+            {
+              ...serviceProvisions[index],
+              [fieldName]: value,
+            },
+            ...serviceProvisions.slice(index + 1),
+          ]);
+        }}
+      />
+    ))}
+  </>
+);
 
 export default ServiceProvisions;

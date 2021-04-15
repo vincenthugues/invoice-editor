@@ -1,13 +1,23 @@
-import './App.css';
-import Invoice from './components/Invoice';
+import { useState } from "react";
+import "./App.css";
+import InvoiceEditor from "./components/Invoice";
+import InvoiceSelector from "./components/InvoiceSelector";
 
-const App = () => (
-  <div className="App">
-    <header className="App-header no-print">
-      <h1>Facture</h1>
-    </header>
-    <Invoice />
-  </div>
-);
+const App = () => {
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState();
+
+  return (
+    <div className="App">
+      <header className="App-header no-print">
+        <h1>Facturation</h1>
+        <InvoiceSelector
+          selectedId={selectedInvoiceId}
+          onChange={(id) => setSelectedInvoiceId(id)}
+        />
+      </header>
+      {selectedInvoiceId && <InvoiceEditor invoiceId={selectedInvoiceId} />}
+    </div>
+  );
+};
 
 export default App;

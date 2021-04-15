@@ -1,4 +1,4 @@
-import { usePersonalInfo, useServiceProvisions } from "../hooks";
+import { useInvoice, usePersonalInfo } from "../hooks";
 import { addDaysToDate, formatCurrency } from "../utils";
 import ServiceProvisions from "./ServiceProvisions";
 
@@ -50,13 +50,12 @@ const InvoiceHeader = ({ invoiceNumber }) => {
   );
 };
 
-const Invoice = () => {
+const InvoiceEditor = ({ invoiceId }) => {
   const [{ siret }] = usePersonalInfo();
-  const rate = Number(process.env.REACT_APP_RATE);
+  const [invoice, setInvoice] = useInvoice(invoiceId);
+  const { number: invoiceNumber, rate, serviceProvisions } = invoice;
   const tva = 0;
-  const invoiceNumber = "20201043";
-  const [serviceProvisions] = useServiceProvisions();
-  const totalAmount = serviceProvisions.reduce(
+  const totalAmount = (serviceProvisions || []).reduce(
     (total, { hours }) => total + hours * rate,
     0
   );
@@ -74,7 +73,17 @@ const Invoice = () => {
           </tr>
         </thead>
         <tbody>
-          <ServiceProvisions />
+          {serviceProvisions && (
+            <ServiceProvisions
+              serviceProvisions={serviceProvisions}
+              onChange={(newServiceProvisions) =>
+                setInvoice({
+                  ...invoice,
+                  serviceProvisions: newServiceProvisions,
+                })
+              }
+            />
+          )}
         </tbody>
       </table>
       <div align="right">
@@ -103,4 +112,4 @@ const Invoice = () => {
   );
 };
 
-export default Invoice;
+export default InvoiceEditor;

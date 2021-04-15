@@ -32,21 +32,54 @@ export const usePersonalInfo = () => {
   return [personalInfo, setPersonalInfo];
 };
 
-export const useServiceProvisions = () => {
-  const [serviceProvisions, setServiceProvisions] = useState([]);
+const defaultInvoices = [
+  {
+    id: 1,
+    number: "20201043",
+    date: new Date("2021-01-01"),
+    clientName: process.env.REACT_APP_CLIENT,
+    patientName: process.env.REACT_APP_PATIENT,
+    rate: Number(process.env.REACT_APP_RATE),
+    serviceProvisions: defaultServiceProvisions,
+  },
+];
+export const useInvoices = () => {
+  const [invoices, setInvoices] = useState([]);
 
   useEffect(() => {
-    const storedData = localStorage.getItem("serviceProvisions");
+    const storedData = localStorage.getItem("invoices");
 
     if (storedData) {
-      setServiceProvisions(JSON.parse(storedData));
+      setInvoices(JSON.parse(storedData));
     } else {
-      localStorage.setItem(
-        "serviceProvisions",
-        JSON.stringify(defaultServiceProvisions)
-      );
+      localStorage.setItem("invoices", JSON.stringify(defaultInvoices));
     }
   }, []);
 
-  return [serviceProvisions, setServiceProvisions];
+  return [invoices, setInvoices];
+};
+
+export const useInvoice = (invoiceId) => {
+  const [invoice, setInvoice] = useState({});
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("invoices");
+    const storedInvoice =
+      storedData && JSON.parse(storedData).find(({ id }) => id === invoiceId);
+
+    setInvoice(storedInvoice);
+  }, [invoiceId]);
+
+  const updateInvoice = (newInvoice) => {
+    const storedData = localStorage.getItem("invoices");
+    const storedInvoices = storedData && JSON.parse(storedData);
+    const updatedInvoices = storedInvoices.map((v) =>
+      v.id === invoiceId ? newInvoice : v
+    );
+    localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
+
+    setInvoice(newInvoice);
+  };
+
+  return [invoice, updateInvoice];
 };
