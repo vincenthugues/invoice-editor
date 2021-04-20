@@ -12,9 +12,9 @@ const InvoiceSelector = ({ selectedId, onChange }) => {
         }
       >
         <option value="">--Sélectionner une facture--</option>
-        {invoices.map(({ id, date, patientName }) => (
+        {invoices.map(({ id, number, date, patientName }) => (
           <option key={id} value={id}>
-            {new Date(date).toLocaleDateString("fr-FR")} {patientName}
+            {number} {new Date(date).toLocaleDateString("fr-FR")} {patientName}
           </option>
         ))}
       </select>
