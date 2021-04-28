@@ -58,17 +58,19 @@ export const useInvoices = () => {
 
   const createInvoice = (newInvoice) => {
     const maxId = invoices.reduce((max, { id }) => (id > max ? id : max), 0);
+    const newId = maxId + 1;
     const updatedInvoices = [
       ...invoices,
       {
         ...newInvoice,
-        id: maxId + 1,
+        id: newId,
         date: new Date(),
         serviceProvisions: [],
       },
     ];
     localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
     setInvoices(updatedInvoices);
+    return newId;
   };
 
   return [invoices, createInvoice];

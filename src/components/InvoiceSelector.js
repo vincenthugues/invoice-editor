@@ -1,12 +1,15 @@
 import { useInvoices } from "../hooks";
+import { InvoiceCreator } from "./InvoiceCreator";
 
 const InvoiceSelector = ({ selectedId, onChange }) => {
   const [invoices] = useInvoices();
 
+  console.log({ selectedId });
+
   return (
     <div className="InvoiceSelector">
       <select
-        value={selectedId || ''}
+        value={selectedId || ""}
         onChange={({ target: { value } }) =>
           onChange(value ? Number(value) : null)
         }
@@ -18,6 +21,7 @@ const InvoiceSelector = ({ selectedId, onChange }) => {
           </option>
         ))}
       </select>
+      <InvoiceCreator onCreate={onChange} />
     </div>
   );
 };

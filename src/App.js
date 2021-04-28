@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import { InvoiceCreator } from "./components/InvoiceCreator";
 import InvoiceEditor from "./components/InvoiceEditor";
 import InvoiceSelector from "./components/InvoiceSelector";
 
@@ -15,7 +14,6 @@ const App = () => {
           selectedId={selectedInvoiceId}
           onChange={(id) => setSelectedInvoiceId(id)}
         />
-        <InvoiceCreator />
       </header>
       {selectedInvoiceId && <InvoiceEditor invoiceId={selectedInvoiceId} />}
     </div>

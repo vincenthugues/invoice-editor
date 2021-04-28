@@ -2,12 +2,7 @@ import { useInvoice, usePersonalInfo } from "../hooks";
 import { addDaysToDate, formatCurrency } from "../utils";
 import ServiceProvisions from "./ServiceProvisions";
 
-const {
-  REACT_APP_CLIENT: clientName,
-  REACT_APP_PATIENT: patientName,
-} = process.env;
-
-const InvoiceHeader = ({ invoiceNumber }) => {
+const InvoiceHeader = ({ invoiceNumber, clientName, patientName }) => {
   const [{ name, personalDetails, contactInfo }] = usePersonalInfo();
   const invoiceDate = new Date();
   const deadline = addDaysToDate(invoiceDate, 30);
@@ -53,7 +48,13 @@ const InvoiceHeader = ({ invoiceNumber }) => {
 const InvoiceEditor = ({ invoiceId }) => {
   const [{ siret }] = usePersonalInfo();
   const [invoice, setInvoice] = useInvoice(invoiceId);
-  const { number: invoiceNumber, rate, serviceProvisions } = invoice;
+  const {
+    number: invoiceNumber,
+    clientName,
+    patientName,
+    rate,
+    serviceProvisions,
+  } = invoice;
   const tva = 0;
   const totalAmount = (serviceProvisions || []).reduce(
     (total, { hours }) => total + hours * rate,
@@ -62,7 +63,11 @@ const InvoiceEditor = ({ invoiceId }) => {
 
   return (
     <div className="Invoice">
-      <InvoiceHeader invoiceNumber={invoiceNumber} />
+      <InvoiceHeader
+        invoiceNumber={invoiceNumber}
+        clientName={clientName}
+        patientName={patientName}
+      />
       <table>
         <thead>
           <tr>
@@ -76,6 +81,7 @@ const InvoiceEditor = ({ invoiceId }) => {
           {serviceProvisions && (
             <ServiceProvisions
               serviceProvisions={serviceProvisions}
+              rate={rate}
               onChange={(newServiceProvisions) =>
                 setInvoice({
                   ...invoice,

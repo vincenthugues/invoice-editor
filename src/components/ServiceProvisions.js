@@ -1,9 +1,7 @@
 import { formatCurrency } from "../utils";
 import EditableText from "./EditableText";
 
-const rate = Number(process.env.REACT_APP_RATE);
-
-const ServiceProvision = ({ heading, details, hours, fieldUpdater }) => (
+const ServiceProvision = ({ heading, details, hours, rate, fieldUpdater }) => (
   <tr>
     <td>
       <b>
@@ -30,7 +28,7 @@ const ServiceProvision = ({ heading, details, hours, fieldUpdater }) => (
   </tr>
 );
 
-const ServiceProvisions = ({ serviceProvisions, onChange }) => (
+const ServiceProvisions = ({ serviceProvisions, onChange, rate }) => (
   <>
     {serviceProvisions.map(({ heading, details, hours }, index) => (
       <ServiceProvision
@@ -38,6 +36,7 @@ const ServiceProvisions = ({ serviceProvisions, onChange }) => (
         heading={heading}
         details={details}
         hours={hours}
+        rate={rate}
         fieldUpdater={(fieldName) => (value) => {
           onChange([
             ...serviceProvisions.slice(0, index),
