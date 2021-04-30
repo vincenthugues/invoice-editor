@@ -4,8 +4,6 @@ import { InvoiceCreator } from "./InvoiceCreator";
 const InvoiceSelector = ({ selectedId, onChange }) => {
   const [invoices] = useInvoices();
 
-  console.log({ selectedId });
-
   return (
     <div className="InvoiceSelector">
       <select

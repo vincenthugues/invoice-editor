@@ -47,7 +47,7 @@ const InvoiceHeader = ({ invoiceNumber, clientName, patientName }) => {
 
 const InvoiceEditor = ({ invoiceId }) => {
   const [{ siret }] = usePersonalInfo();
-  const [invoice, setInvoice] = useInvoice(invoiceId);
+  const [invoice, updateInvoice] = useInvoice(invoiceId);
   const {
     number: invoiceNumber,
     clientName,
@@ -83,7 +83,7 @@ const InvoiceEditor = ({ invoiceId }) => {
               serviceProvisions={serviceProvisions}
               rate={rate}
               onChange={(newServiceProvisions) =>
-                setInvoice({
+                updateInvoice({
                   ...invoice,
                   serviceProvisions: newServiceProvisions,
                 })
@@ -92,6 +92,23 @@ const InvoiceEditor = ({ invoiceId }) => {
           )}
         </tbody>
       </table>
+      <button
+        onClick={() => {
+          updateInvoice({
+            ...invoice,
+            serviceProvisions: [
+              ...serviceProvisions,
+                {
+                  heading: "Titre",
+                  details: "Détails",
+                  hours: 1,
+                },
+              ],
+          });
+        }}
+      >
+        Nouvelle ligne
+      </button>
       <div align="right">
         <div>
           <b>Total brut</b>
