@@ -75,6 +75,7 @@ const InvoiceEditor = ({ invoiceId }) => {
             <td>Nombre d’heures</td>
             <td>Taux horaire</td>
             <td>Total HT</td>
+            <td className=".no-print LastColumn" />
           </tr>
         </thead>
         <tbody>
@@ -93,17 +94,18 @@ const InvoiceEditor = ({ invoiceId }) => {
         </tbody>
       </table>
       <button
+        className="no-print"
         onClick={() => {
           updateInvoice({
             ...invoice,
             serviceProvisions: [
               ...serviceProvisions,
-                {
-                  heading: "Titre",
-                  details: "Détails",
-                  hours: 1,
-                },
-              ],
+              {
+                heading: "Titre",
+                details: "Détails",
+                hours: 1,
+              },
+            ],
           });
         }}
       >

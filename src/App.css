@@ -1,3 +1,15 @@
+@media print
+{
+  .no-print, .no-print *
+  {
+    display: none !important;
+  }
+
+  * {
+    font-size: 9px;
+  }
+}
+
 .App {
   text-align: center;
 }
@@ -28,18 +40,6 @@
   padding: 2px 6px;
 }
 
-@media print
-{    
-  .no-print, .no-print *
-  {
-    display: none !important;
-  }
-
-  * {
-    font-size: 9px;
-  }
-}
-
 h1 {
   font-size: 2.5rem;
 }
@@ -64,6 +64,7 @@ h1 {
 
 .Invoice table {
   border-collapse: collapse;
+  width: 75vw;
   margin: .8em auto;
 }
 
@@ -77,7 +78,17 @@ h1 {
   white-space: pre-wrap;
 }
 
-.Invoice tbody td:nth-child(1) {
+.Invoice .LastColumn {
+  border: 0px;
+  width: 12px;
+  visibility: hidden;
+}
+
+.Invoice :hover > td {
+  visibility: visible;
+}
+
+.Invoice tbody td:first-child {
   text-align: left;
 }
 

@@ -1,7 +1,7 @@
 import { formatCurrency } from "../utils";
 import EditableText from "./EditableText";
 
-const ServiceProvision = ({ heading, details, hours, rate, fieldUpdater }) => (
+const ServiceProvision = ({ heading, details, hours, rate, fieldUpdater, onDelete }) => (
   <tr>
     <td>
       <b>
@@ -25,6 +25,11 @@ const ServiceProvision = ({ heading, details, hours, rate, fieldUpdater }) => (
     </td>
     <td align="center">{formatCurrency(rate)}</td>
     <td align="center">{formatCurrency(hours * rate)}</td>
+    <td className=".no-print LastColumn">
+      <button onClick={() => {
+        if (window.confirm("Supprimer la ligne ?")) onDelete();
+      }}>❌</button>
+    </td>
   </tr>
 );
 
@@ -47,6 +52,12 @@ const ServiceProvisions = ({ serviceProvisions, onChange, rate }) => (
             ...serviceProvisions.slice(index + 1),
           ]);
         }}
+        onDelete={() =>
+          onChange([
+            ...serviceProvisions.slice(0, index),
+            ...serviceProvisions.slice(index + 1),
+          ])
+        }
       />
     ))}
   </>
