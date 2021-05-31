@@ -73,7 +73,17 @@ export const useInvoices = () => {
     return newId;
   };
 
-  return [invoices, createInvoice];
+  const deleteInvoice = (invoiceId) => {
+    const invoiceIndex = invoices.findIndex(({ id }) => id === invoiceId);
+    const updatedInvoices = [
+      ...invoices.slice(0, invoiceIndex),
+      ...invoices.slice(invoiceIndex + 1),
+    ];
+    localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
+    setInvoices(updatedInvoices);
+  };
+
+  return [invoices, createInvoice, deleteInvoice];
 };
 
 export const useInvoice = (invoiceId) => {

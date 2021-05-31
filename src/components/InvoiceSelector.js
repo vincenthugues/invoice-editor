@@ -1,7 +1,7 @@
 import { useInvoices } from "../hooks";
 import { InvoiceCreator } from "./InvoiceCreator";
 
-const InvoiceSelector = ({ selectedId, onChange }) => {
+const InvoiceSelector = ({ selectedId, onChange, onDelete }) => {
   const [invoices] = useInvoices();
 
   return (
@@ -20,6 +20,14 @@ const InvoiceSelector = ({ selectedId, onChange }) => {
         ))}
       </select>
       <InvoiceCreator onCreate={onChange} />
+      <button
+        onClick={() => {
+          if (window.confirm("Supprimer la facture ?")) onDelete(selectedId);
+        }}
+        disabled={!selectedId}
+      >
+        ❌
+      </button>
     </div>
   );
 };
