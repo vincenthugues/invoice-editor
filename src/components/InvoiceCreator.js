@@ -20,9 +20,9 @@ export const InvoiceCreator = ({ onCreate }) => {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div>
-        <label htmlFor='number'>Number</label>
+        <label htmlFor="number">Number</label>
         <input
-          id='number'
+          id="number"
           name="number"
           type="number"
           value={invoiceNumber}
@@ -50,7 +50,7 @@ export const InvoiceCreator = ({ onCreate }) => {
         />
       </div>
       <div>
-        <label htmlFor="rate">Rate</label>
+        <label htmlFor="rate">Taux</label>
         <input
           id="rate"
           name="rate"

@@ -1,12 +1,20 @@
 import { formatCurrency } from "../utils";
 import EditableText from "./EditableText";
 
-const ServiceProvision = ({ heading, details, hours, rate, fieldUpdater, onDelete }) => (
+const ServiceProvision = ({
+  heading,
+  details,
+  hours,
+  rate,
+  fieldUpdater,
+  onDelete,
+}) => (
   <tr>
     <td>
       <b>
         <EditableText value={heading} onChange={fieldUpdater("heading")} />
       </b>
+      <br />
       <EditableText
         value={details}
         onChange={fieldUpdater("details")}
@@ -25,10 +33,14 @@ const ServiceProvision = ({ heading, details, hours, rate, fieldUpdater, onDelet
     </td>
     <td align="center">{formatCurrency(rate)}</td>
     <td align="center">{formatCurrency(hours * rate)}</td>
-    <td className=".no-print LastColumn">
-      <button onClick={() => {
-        if (window.confirm("Supprimer la ligne ?")) onDelete();
-      }}>❌</button>
+    <td className="LastColumn no-print">
+      <button
+        onClick={() => {
+          if (window.confirm("Supprimer la ligne ?")) onDelete();
+        }}
+      >
+        ❌
+      </button>
     </td>
   </tr>
 );

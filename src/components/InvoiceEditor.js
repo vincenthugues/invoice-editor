@@ -75,7 +75,7 @@ const InvoiceEditor = ({ invoiceId }) => {
             <td>Nombre d’heures</td>
             <td>Taux horaire</td>
             <td>Total HT</td>
-            <td className=".no-print LastColumn" />
+            <td className="LastColumn no-print" />
           </tr>
         </thead>
         <tbody>
@@ -128,10 +128,12 @@ const InvoiceEditor = ({ invoiceId }) => {
           {formatCurrency(totalAmount + tva)}
         </div>
       </div>
-      <div>TVA non applicable, art. 293 B du CGI</div>
-      <hr />
       <div>
-        № Siret {siret} - Facture {invoiceNumber}
+        <div>TVA non applicable, art. 293 B du CGI</div>
+        <hr />
+        <div>
+          № Siret {siret} - Facture {invoiceNumber}
+        </div>
       </div>
     </div>
   );
