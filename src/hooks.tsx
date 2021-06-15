@@ -1,8 +1,30 @@
 import { useEffect, useState } from "react";
 import { defaultServiceProvisions } from "./localStorage.default";
 
+export interface ServiceProvision {
+  heading: string,
+  details: string,
+  hours: number,
+};
+
+export interface Invoice {
+  id?: number,
+  number?: number,
+  date?: Date,
+  clientName?: string,
+  patientName?: string,
+  rate?: number,
+  serviceProvisions?: Array<ServiceProvision>,
+};
+
+type PersonalInfo = {
+  name?: string,
+  personalDetails?: string,
+  contactInfo?:string,
+  siret?:string,
+};
 export const usePersonalInfo = () => {
-  const [personalInfo, setPersonalInfo] = useState({});
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({});
 
   useEffect(() => {
     const storedData = localStorage.getItem("personalInfo");
@@ -29,22 +51,20 @@ export const usePersonalInfo = () => {
     }
   }, []);
 
-  return [personalInfo, setPersonalInfo];
+  return [personalInfo, setPersonalInfo] as const;
 };
 
-const defaultInvoices = [
-  {
-    id: 1,
-    number: "20201043",
-    date: new Date("2021-01-01"),
-    clientName: process.env.REACT_APP_CLIENT,
-    patientName: process.env.REACT_APP_PATIENT,
-    rate: Number(process.env.REACT_APP_RATE),
-    serviceProvisions: defaultServiceProvisions,
-  },
-];
+const DEFAULT_INVOICE = {
+  id: 1,
+  number: 20201043,
+  date: new Date("2021-01-01"),
+  clientName: process.env.REACT_APP_CLIENT,
+  patientName: process.env.REACT_APP_PATIENT,
+  rate: Number(process.env.REACT_APP_RATE),
+  serviceProvisions: defaultServiceProvisions,
+};
 export const useInvoices = () => {
-  const [invoices, setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState<Array<Invoice>>([]);
 
   useEffect(() => {
     const storedData = localStorage.getItem("invoices");
@@ -52,13 +72,12 @@ export const useInvoices = () => {
     if (storedData) {
       setInvoices(JSON.parse(storedData));
     } else {
-      localStorage.setItem("invoices", JSON.stringify(defaultInvoices));
+      localStorage.setItem("invoices", JSON.stringify([DEFAULT_INVOICE]));
     }
   }, []);
 
-  const createInvoice = (newInvoice) => {
-    const maxId = invoices.reduce((max, { id }) => (id > max ? id : max), 0);
-    const newId = maxId + 1;
+  const createInvoice = (newInvoice: Invoice): number => {
+    const newId = Math.max(...invoices.map(({ id }) => id as number)) + 1;
     const updatedInvoices = [
       ...invoices,
       {
@@ -73,7 +92,7 @@ export const useInvoices = () => {
     return newId;
   };
 
-  const deleteInvoice = (invoiceId) => {
+  const deleteInvoice = (invoiceId: number) => {
     const invoiceIndex = invoices.findIndex(({ id }) => id === invoiceId);
     const updatedInvoices = [
       ...invoices.slice(0, invoiceIndex),
@@ -83,30 +102,30 @@ export const useInvoices = () => {
     setInvoices(updatedInvoices);
   };
 
-  return [invoices, createInvoice, deleteInvoice];
+  return [invoices, createInvoice, deleteInvoice] as const;
 };
 
-export const useInvoice = (invoiceId) => {
-  const [invoice, setInvoice] = useState({});
+export const useInvoice = (invoiceId: number) => {
+  const [invoice, setInvoice] = useState<Invoice>({});
 
   useEffect(() => {
     const storedData = localStorage.getItem("invoices");
     const storedInvoice =
-      storedData && JSON.parse(storedData).find(({ id }) => id === invoiceId);
+      storedData && JSON.parse(storedData).find(({ id }: Invoice) => id === invoiceId);
 
     setInvoice(storedInvoice);
   }, [invoiceId]);
 
-  const updateInvoice = (newInvoice) => {
+  const updateInvoice = (newInvoice: Invoice) => {
     const storedData = localStorage.getItem("invoices");
     const storedInvoices = storedData && JSON.parse(storedData);
-    const updatedInvoices = storedInvoices.map((v) =>
-      v.id === invoiceId ? newInvoice : v
+    const updatedInvoices = storedInvoices.map((invoice: Invoice) =>
+      invoice.id === invoiceId ? newInvoice : invoice
     );
     localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
 
     setInvoice(newInvoice);
   };
 
-  return [invoice, updateInvoice];
+  return [invoice, updateInvoice] as const;
 };

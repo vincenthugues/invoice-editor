@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-const EditableText = ({ value: defaultValue, onChange, field }) => {
+type EditableTextProps = {
+  value: string,
+  onChange: Function,
+  field?: string,
+}
+const EditableText = ({ value: defaultValue, onChange, field }: EditableTextProps) => {
   const [value, setValue] = useState(defaultValue);
   const [isEditing, setIsEditing] = useState(false);
   const onConfirm = () => {
@@ -15,7 +20,7 @@ const EditableText = ({ value: defaultValue, onChange, field }) => {
   if (isEditing) {
     return (
       <form
-        onChange={({ target }) => setValue(target.value)}
+        onChange={({ target }) => setValue((target as HTMLInputElement).value)}
         onSubmit={(e) => {
           e.preventDefault();
         }}

@@ -62,6 +62,14 @@ h1 {
   white-space: pre-wrap;
 }
 
+.AlignLeft {
+  text-align: left;
+}
+
+.AlignRight {
+  text-align: right;
+}
+
 .Invoice table {
   border-collapse: collapse;
   width: 100%;

@@ -1,7 +1,12 @@
 import { useInvoices } from "../hooks";
 import { InvoiceCreator } from "./InvoiceCreator";
 
-const InvoiceSelector = ({ selectedId, onChange, onDelete }) => {
+type InvoiceSelectorProps = {
+  selectedId: number,
+  onChange: Function,
+  onDelete: Function,
+};
+const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProps) => {
   const [invoices] = useInvoices();
 
   return (
@@ -13,7 +18,7 @@ const InvoiceSelector = ({ selectedId, onChange, onDelete }) => {
         }
       >
         <option value="">--Sélectionner une facture--</option>
-        {invoices.map(({ id, number, date, patientName }) => (
+        {invoices.map(({ id, number, date = '', patientName }) => (
           <option key={id} value={id}>
             {number} {new Date(date).toLocaleDateString("fr-FR")} {patientName}
           </option>

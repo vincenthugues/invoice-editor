@@ -1,14 +1,23 @@
+import { ServiceProvision } from "../hooks";
 import { formatCurrency } from "../utils";
 import EditableText from "./EditableText";
 
-const ServiceProvision = ({
+type ServiceProvisionRowProps = {
+  heading: string,
+  details: string,
+  hours: number,
+  rate: number,
+  fieldUpdater: Function,
+  onDelete: Function,
+};
+const ServiceProvisionRow = ({
   heading,
   details,
   hours,
   rate,
   fieldUpdater,
   onDelete,
-}) => (
+}: ServiceProvisionRowProps) => (
   <tr>
     <td>
       <b>
@@ -24,7 +33,7 @@ const ServiceProvision = ({
     <td>
       <div className="CellRow">
         <EditableText
-          value={hours}
+          value={String(hours)}
           onChange={fieldUpdater("hours")}
           field="number"
         />
@@ -45,16 +54,21 @@ const ServiceProvision = ({
   </tr>
 );
 
-const ServiceProvisions = ({ serviceProvisions, onChange, rate }) => (
+type ServiceProvisionsProps = {
+  serviceProvisions: Array<ServiceProvision>,
+  rate: number,
+  onChange: Function,
+};
+const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisionsProps) => (
   <>
     {serviceProvisions.map(({ heading, details, hours }, index) => (
-      <ServiceProvision
+      <ServiceProvisionRow
         key={index}
         heading={heading}
         details={details}
         hours={hours}
         rate={rate}
-        fieldUpdater={(fieldName) => (value) => {
+        fieldUpdater={(fieldName: string) => (value: string | number) => {
           onChange([
             ...serviceProvisions.slice(0, index),
             {
