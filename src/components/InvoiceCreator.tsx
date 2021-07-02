@@ -68,22 +68,25 @@ export const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
           onChange={({ target: { value } }) => setInvoiceRate(Number(value))}
         />
       </div>
-      <button
-        onClick={() => {
-          const newInvoiceId = createInvoice({
-            number: invoiceNumber,
-            clientName: invoiceClient,
-            patientName: invoicePatient,
-            rate: Number(invoiceRate),
-          });
-          onCreate(newInvoiceId);
-          setIsCreatorOpen(false);
-        }}
-        type="submit"
-        disabled={!isFormValid}
-      >
-        Valider
-      </button>
+      <div>
+        <button
+          onClick={() => {
+            const newInvoiceId = createInvoice({
+              number: invoiceNumber,
+              clientName: invoiceClient,
+              patientName: invoicePatient,
+              rate: Number(invoiceRate),
+            });
+            onCreate(newInvoiceId);
+            setIsCreatorOpen(false);
+          }}
+          type="submit"
+          disabled={!isFormValid}
+        >
+          Valider
+        </button>
+        <button onClick={() => setIsCreatorOpen(false)}>Annuler</button>
+      </div>
     </form>
   );
 };
