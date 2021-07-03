@@ -10,16 +10,17 @@ const DEFAULT_SERVICE_PROVISION = {
 
 type InvoiceHeaderProps = {
   invoiceNumber: number,
+  date: Date,
   clientName: string,
   patientName: string,
 };
-const InvoiceHeader = ({ invoiceNumber, clientName, patientName }: InvoiceHeaderProps) => {
+const InvoiceHeader = ({ invoiceNumber, date, clientName, patientName }: InvoiceHeaderProps) => {
   const [personalInfo] = usePersonalInfo();
 
   if (!personalInfo) return null;
 
   const { name, personalDetails, contactInfo } = personalInfo;
-  const invoiceDate = new Date();
+  const invoiceDate = new Date(date);
   const deadline = addDaysToDate(invoiceDate, 30);
 
   return (
@@ -73,6 +74,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
   const { siret } = personalInfo;
   const {
     number: invoiceNumber,
+    date,
     clientName,
     patientName,
     rate,
@@ -87,6 +89,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
     <div className="Invoice">
       <InvoiceHeader
         invoiceNumber={invoiceNumber}
+        date={date}
         clientName={clientName}
         patientName={patientName}
       />
