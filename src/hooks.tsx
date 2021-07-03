@@ -7,14 +7,21 @@ export interface ServiceProvision {
   hours: number,
 };
 
-export interface Invoice {
-  id?: number,
+interface InvoiceDraft {
   number?: number,
-  date?: Date,
   clientName?: string,
   patientName?: string,
   rate?: number,
-  serviceProvisions?: Array<ServiceProvision>,
+};
+
+export interface Invoice extends InvoiceDraft {
+  id: number,
+  number: number,
+  date: Date,
+  clientName: string,
+  patientName: string,
+  rate: number,
+  serviceProvisions: Array<ServiceProvision>,
 };
 
 type PersonalInfo = {
@@ -23,8 +30,19 @@ type PersonalInfo = {
   contactInfo?:string,
   siret?:string,
 };
+
+const DEFAULT_INVOICE = {
+  id: 1,
+  number: 20201043,
+  date: new Date("2021-01-01"),
+  clientName: process.env.REACT_APP_CLIENT,
+  patientName: process.env.REACT_APP_PATIENT,
+  rate: Number(process.env.REACT_APP_RATE),
+  serviceProvisions: defaultServiceProvisions,
+};
+
 export const usePersonalInfo = () => {
-  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({});
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>();
 
   useEffect(() => {
     const storedData = localStorage.getItem("personalInfo");
@@ -54,15 +72,6 @@ export const usePersonalInfo = () => {
   return [personalInfo, setPersonalInfo] as const;
 };
 
-const DEFAULT_INVOICE = {
-  id: 1,
-  number: 20201043,
-  date: new Date("2021-01-01"),
-  clientName: process.env.REACT_APP_CLIENT,
-  patientName: process.env.REACT_APP_PATIENT,
-  rate: Number(process.env.REACT_APP_RATE),
-  serviceProvisions: defaultServiceProvisions,
-};
 export const useInvoices = () => {
   const [invoices, setInvoices] = useState<Array<Invoice>>([]);
 
@@ -76,17 +85,16 @@ export const useInvoices = () => {
     }
   }, []);
 
-  const createInvoice = (newInvoice: Invoice): number => {
+  const createInvoice = (invoiceDraft: InvoiceDraft): number => {
     const newId = Math.max(...invoices.map(({ id }) => id as number)) + 1;
-    const updatedInvoices = [
-      ...invoices,
-      {
-        ...newInvoice,
-        id: newId,
-        date: new Date(),
-        serviceProvisions: [],
-      },
-    ];
+    const newInvoice = {
+      ...invoiceDraft,
+      id: newId,
+      date: new Date(),
+      serviceProvisions: [],
+    } as Invoice;
+
+    const updatedInvoices = [...invoices, newInvoice];
     localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
     setInvoices(updatedInvoices);
     return newId;
@@ -106,7 +114,7 @@ export const useInvoices = () => {
 };
 
 export const useInvoice = (invoiceId: number) => {
-  const [invoice, setInvoice] = useState<Invoice>({});
+  const [invoice, setInvoice] = useState<Invoice>();
 
   useEffect(() => {
     const storedData = localStorage.getItem("invoices");

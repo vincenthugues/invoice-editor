@@ -2,13 +2,23 @@ import { ServiceProvision, useInvoice, usePersonalInfo } from "../hooks";
 import { addDaysToDate, formatCurrency } from "../utils";
 import ServiceProvisions from "./ServiceProvisions";
 
+const DEFAULT_SERVICE_PROVISION = {
+  heading: "Titre",
+  details: "Détails",
+  hours: 1,
+};
+
 type InvoiceHeaderProps = {
   invoiceNumber: number,
   clientName: string,
   patientName: string,
 };
 const InvoiceHeader = ({ invoiceNumber, clientName, patientName }: InvoiceHeaderProps) => {
-  const [{ name, personalDetails, contactInfo }] = usePersonalInfo();
+  const [personalInfo] = usePersonalInfo();
+
+  if (!personalInfo) return null;
+
+  const { name, personalDetails, contactInfo } = personalInfo;
   const invoiceDate = new Date();
   const deadline = addDaysToDate(invoiceDate, 30);
 
@@ -54,16 +64,20 @@ type InvoiceEditorProps = {
   invoiceId: number,
 };
 const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
-  const [{ siret }] = usePersonalInfo();
+  const [personalInfo] = usePersonalInfo();
   const [invoice, updateInvoice] = useInvoice(invoiceId);
+  const tva = 0;
+
+  if (!personalInfo || !invoice) return null;
+
+  const { siret } = personalInfo;
   const {
     number: invoiceNumber,
     clientName,
     patientName,
-    rate = 0,
-    serviceProvisions = [],
+    rate,
+    serviceProvisions,
   } = invoice;
-  const tva = 0;
   const totalAmount = serviceProvisions.reduce(
     (total: number, { hours }) => total + hours * rate,
     0
@@ -72,9 +86,9 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
   return (
     <div className="Invoice">
       <InvoiceHeader
-        invoiceNumber={invoiceNumber || 0}
-        clientName={clientName || ''}
-        patientName={patientName || ''}
+        invoiceNumber={invoiceNumber}
+        clientName={clientName}
+        patientName={patientName}
       />
       <table>
         <thead>
@@ -87,18 +101,16 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
           </tr>
         </thead>
         <tbody>
-          {serviceProvisions && (
-            <ServiceProvisions
-              serviceProvisions={serviceProvisions}
-              rate={rate}
-              onChange={(newServiceProvisions: Array<ServiceProvision>) =>
-                updateInvoice({
-                  ...invoice,
-                  serviceProvisions: newServiceProvisions,
-                })
-              }
-            />
-          )}
+          <ServiceProvisions
+            serviceProvisions={serviceProvisions}
+            rate={rate}
+            onChange={(newServiceProvisions: Array<ServiceProvision>) =>
+              updateInvoice({
+                ...invoice,
+                serviceProvisions: newServiceProvisions,
+              })
+            }
+          />
         </tbody>
       </table>
       <button
@@ -106,14 +118,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
         onClick={() => {
           updateInvoice({
             ...invoice,
-            serviceProvisions: [
-              ...serviceProvisions,
-              {
-                heading: "Titre",
-                details: "Détails",
-                hours: 1,
-              },
-            ],
+            serviceProvisions: [...serviceProvisions, DEFAULT_SERVICE_PROVISION],
           });
         }}
       >
