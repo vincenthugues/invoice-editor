@@ -7,7 +7,7 @@ const DEFAULT_INVOICE_RATE = 50;
 type InvoiceCreatorProps = {
   onCreate: Function,
 };
-export const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
+const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
   const [invoices, createInvoice] = useInvoices();
   const [isCreatorOpen, setIsCreatorOpen] = useState(false);
   const [invoiceNumber, setInvoiceNumber] = useState(DEFAULT_INVOICE_NUMBER);
@@ -90,3 +90,5 @@ export const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
     </form>
   );
 };
+
+export default InvoiceCreator;

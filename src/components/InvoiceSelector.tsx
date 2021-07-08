@@ -1,5 +1,5 @@
 import { useInvoices } from "../hooks";
-import { InvoiceCreator } from "./InvoiceCreator";
+import InvoiceCreator from "./InvoiceCreator";
 
 type InvoiceSelectorProps = {
   selectedId: number,
