@@ -1,7 +1,7 @@
-export const formatCurrency = (number: number) =>
+export const formatCurrency = (number: number): string =>
   number.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
 
-export const addDaysToDate = (date: Date, daysToAdd: number) => {
+export const addDaysToDate = (date: Date, daysToAdd: number): Date => {
   const newDate = new Date(date);
   newDate.setDate(newDate.getDate() + daysToAdd);
 
