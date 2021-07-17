@@ -1,7 +1,14 @@
 {
-  "name": "invoice-test",
+  "name": "invoice-app",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "aws s3 sync build s3://$(grep S3_STORAGE_NAME .env | cut -d '=' -f2) --acl public-read",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -17,12 +24,6 @@
     "source-map-loader": "^3.0.0",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
