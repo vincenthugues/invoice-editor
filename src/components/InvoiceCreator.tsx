@@ -29,7 +29,7 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div>
-        <label htmlFor="number">Number</label>
+        <label htmlFor="number">Numéro</label>
         <input
           id="number"
           name="number"
