@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { defaultServiceProvisions } from "./localStorage.default";
 
 export interface ServiceProvision {
   heading: string,
@@ -29,16 +28,6 @@ type PersonalInfo = {
   personalDetails?: string,
   contactInfo?:string,
   siret?:string,
-};
-
-const DEFAULT_INVOICE = {
-  id: 1,
-  number: 20201043,
-  date: new Date("2021-01-01"),
-  clientName: process.env.REACT_APP_CLIENT,
-  patientName: process.env.REACT_APP_PATIENT,
-  rate: Number(process.env.REACT_APP_RATE),
-  serviceProvisions: defaultServiceProvisions,
 };
 
 export const usePersonalInfo = () => {
@@ -81,7 +70,7 @@ export const useInvoices = () => {
     if (storedData) {
       setInvoices(JSON.parse(storedData));
     } else {
-      localStorage.setItem("invoices", JSON.stringify([DEFAULT_INVOICE]));
+      localStorage.setItem("invoices", JSON.stringify([]));
     }
   }, []);
 
