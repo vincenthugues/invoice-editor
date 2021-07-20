@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getMaxInvoiceId } from "./utils";
 
 export interface ServiceProvision {
   heading: string,
@@ -75,7 +76,7 @@ export const useInvoices = () => {
   }, []);
 
   const createInvoice = (invoiceDraft: InvoiceDraft): number => {
-    const newId = Math.max(...invoices.map(({ id }) => id as number)) + 1;
+    const newId = getMaxInvoiceId(invoices) + 1;
     const newInvoice = {
       ...invoiceDraft,
       id: newId,
