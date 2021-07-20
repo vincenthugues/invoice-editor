@@ -29,7 +29,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
     serviceProvisions,
   } = invoice;
   const totalAmount = serviceProvisions.reduce(
-    (total: number, { hours }) => total + hours * rate,
+    (total, { hours }) => total + hours * rate,
     0
   );
 
