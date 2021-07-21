@@ -23,7 +23,14 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
     && invoiceRate > 0;
 
   if (!isCreatorOpen) {
-    return <button onClick={() => setIsCreatorOpen(true)}>➕</button>;
+    return (
+      <button onClick={() => {
+        setIsCreatorOpen(true);
+        setInvoiceNumber(Math.max(DEFAULT_INVOICE_NUMBER, ...invoices.map(({ number }) => number)) + 1);
+      }}>
+        ➕
+      </button>
+    );
   }
 
   return (
