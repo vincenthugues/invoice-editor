@@ -27,18 +27,27 @@ export interface Invoice extends InvoiceDraft {
 type PersonalInfo = {
   name?: string,
   personalDetails?: string,
-  contactInfo?:string,
-  siret?:string,
+  contactInfo?: string,
+  siret?: string,
 };
+
+const getValueFromStorage = (key: string) => {
+  const storedData = localStorage.getItem(key);
+  return storedData ? JSON.parse(storedData) : null;
+}
+
+const setValueInStorage = (key: string, value: any) => {
+  localStorage.setItem(key, JSON.stringify(value));
+}
 
 export const usePersonalInfo = () => {
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo>();
 
   useEffect(() => {
-    const storedData = localStorage.getItem("personalInfo");
+    const data = getValueFromStorage("personalInfo");
 
-    if (storedData) {
-      setPersonalInfo(JSON.parse(storedData));
+    if (data) {
+      setPersonalInfo(data);
     } else {
       const {
         REACT_APP_NAME: name,
@@ -47,14 +56,14 @@ export const usePersonalInfo = () => {
         REACT_APP_SIRET: siret,
       } = process.env;
 
-      localStorage.setItem(
+      setValueInStorage(
         "personalInfo",
-        JSON.stringify({
+        {
           name,
           personalDetails,
           contactInfo,
           siret,
-        })
+        }
       );
     }
   }, []);
@@ -66,12 +75,12 @@ export const useInvoices = () => {
   const [invoices, setInvoices] = useState<Array<Invoice>>([]);
 
   useEffect(() => {
-    const storedData = localStorage.getItem("invoices");
+    const data = getValueFromStorage("invoices");
 
-    if (storedData) {
-      setInvoices(JSON.parse(storedData));
+    if (data) {
+      setInvoices(data);
     } else {
-      localStorage.setItem("invoices", JSON.stringify([]));
+      setValueInStorage("invoices", []);
     }
   }, []);
 
@@ -85,7 +94,7 @@ export const useInvoices = () => {
     } as Invoice;
 
     const updatedInvoices = [...invoices, newInvoice];
-    localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
+    setValueInStorage("invoices", updatedInvoices);
     setInvoices(updatedInvoices);
     return newId;
   };
@@ -96,7 +105,7 @@ export const useInvoices = () => {
       ...invoices.slice(0, invoiceIndex),
       ...invoices.slice(invoiceIndex + 1),
     ];
-    localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
+    setValueInStorage("invoices", updatedInvoices);
     setInvoices(updatedInvoices);
   };
 
@@ -107,21 +116,18 @@ export const useInvoice = (invoiceId: number) => {
   const [invoice, setInvoice] = useState<Invoice>();
 
   useEffect(() => {
-    const storedData = localStorage.getItem("invoices");
-    const storedInvoice =
-      storedData && JSON.parse(storedData).find(({ id }: Invoice) => id === invoiceId);
+    const data = getValueFromStorage("invoices");
+    const storedInvoice = data?.find(({ id }: Invoice) => id === invoiceId);
 
     setInvoice(storedInvoice);
   }, [invoiceId]);
 
   const updateInvoice = (newInvoice: Invoice) => {
-    const storedData = localStorage.getItem("invoices");
-    const storedInvoices = storedData && JSON.parse(storedData);
+    const storedInvoices = getValueFromStorage("invoices");
     const updatedInvoices = storedInvoices.map((invoice: Invoice) =>
       invoice.id === invoiceId ? newInvoice : invoice
     );
-    localStorage.setItem("invoices", JSON.stringify(updatedInvoices));
-
+    setValueInStorage("invoices", updatedInvoices);
     setInvoice(newInvoice);
   };
 
