@@ -1,6 +1,6 @@
 import { ServiceProvision } from "../hooks";
 import { formatCurrency } from "../utils";
-import EditableText from "./EditableText";
+import EditableField, { FieldType } from "./EditableText";
 
 type ServiceProvisionRowProps = {
   heading: string,
@@ -21,23 +21,22 @@ const ServiceProvisionRow = ({
   <tr>
     <td>
       <b>
-        <EditableText value={heading} onChange={fieldUpdater("heading")} />
+        <EditableField value={heading} onChange={fieldUpdater("heading")} />
       </b>
       <br />
-      <EditableText
+      <EditableField
         value={details}
         onChange={fieldUpdater("details")}
-        field="textarea"
+        fieldType={FieldType.TextArea}
       />
     </td>
     <td>
       <div className="CellRow">
-        <EditableText
+        <EditableField
           value={String(hours)}
           onChange={fieldUpdater("hours")}
-          field="number"
+          fieldType={FieldType.Hours}
         />
-        h
       </div>
     </td>
     <td align="center">{formatCurrency(rate)}</td>

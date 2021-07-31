@@ -1,11 +1,17 @@
 import { useState } from "react";
 
+export enum FieldType {
+  Text,
+  TextArea,
+  Hours,
+};
+
 type EditableTextProps = {
   value: string,
   onChange: Function,
-  field?: string,
+  fieldType?: FieldType,
 }
-const EditableText = ({ value: defaultValue, onChange, field }: EditableTextProps) => {
+const EditableField = ({ value: defaultValue, onChange, fieldType }: EditableTextProps) => {
   const [value, setValue] = useState(defaultValue);
   const [isEditing, setIsEditing] = useState(false);
   const onConfirm = () => {
@@ -17,24 +23,40 @@ const EditableText = ({ value: defaultValue, onChange, field }: EditableTextProp
     setIsEditing(false);
   };
 
+  const buildField = (fieldType?: FieldType) => {
+    switch (fieldType) {
+      case FieldType.TextArea:
+        return (
+          <textarea defaultValue={value} className="EditableField" />
+        );
+      case FieldType.Hours:
+        return (
+          <input
+            type="number"
+            defaultValue={value}
+            className="EditableField"
+          />
+        );
+      case FieldType.Text:
+      default:
+        return (
+          <input
+            type="text"
+            defaultValue={value}
+            className="EditableField"
+          />
+        );
+    }
+  }
+
   if (isEditing) {
     return (
       <form
         onChange={({ target }) => setValue((target as HTMLInputElement).value)}
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+        onSubmit={(e) => { e.preventDefault(); }}
         className="EditableContainer"
       >
-        {field === "textarea" ? (
-          <textarea defaultValue={value} className="EditableField" />
-        ) : (
-          <input
-            type={field === "number" ? "number" : "text"}
-            defaultValue={value}
-            className="EditableField"
-          />
-        )}
+        {buildField(fieldType)}
         <div className="EditableButtons">
           <button type="button" onClick={onConfirm}>
             Confirmer
@@ -47,7 +69,17 @@ const EditableText = ({ value: defaultValue, onChange, field }: EditableTextProp
     );
   }
 
-  return <div onClick={() => setIsEditing(true)}>{value}</div>;
+  const formatHours = (valueStr: String) => {
+    const value = Number(valueStr);
+    const hours = Math.floor(value);
+    const minutes = (value - hours) * 60;
+    return `${hours}h${minutes ? minutes : ''}`;
+  };
+  return (
+    <div onClick={() => setIsEditing(true)}>
+      {fieldType === FieldType.Hours ? formatHours(value) : value}
+    </div>
+  );
 };
 
-export default EditableText;
+export default EditableField;
