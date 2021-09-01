@@ -7,13 +7,6 @@ jest.mock('./utils');
 let processEnv: NodeJS.ProcessEnv;
 
 describe('usePersonalInfo', () => {
-  const DEFAULT_PERSONAL_INFO = {
-    name: 'Name',
-    personalDetails: 'Personal Details',
-    contactInfo: 'Contact Info',
-    siret: 'Siret',
-  };
-
   const TestComponent = () => {
     const [personalInfo, setPersonalInfo] = usePersonalInfo();
 
@@ -21,10 +14,6 @@ describe('usePersonalInfo', () => {
   };
 
   let container: Element | null;
-
-  beforeAll(() => {
-    processEnv = process.env;
-  });
 
   beforeEach(() => {
     container = document.createElement("div");
@@ -35,19 +24,16 @@ describe('usePersonalInfo', () => {
   });
 
   afterEach(() => {
-    process.env = processEnv;
-
     document.body.removeChild(container as Element);
     container = null;
   });
 
   it('sets default values in storage when no value exists', () => {
-    process.env = {
-      ...process.env,
-      REACT_APP_NAME: DEFAULT_PERSONAL_INFO.name,
-      REACT_APP_PERSONAL_DETAILS: DEFAULT_PERSONAL_INFO.personalDetails,
-      REACT_APP_CONTACT_INFO: DEFAULT_PERSONAL_INFO.contactInfo,
-      REACT_APP_SIRET: DEFAULT_PERSONAL_INFO.siret,
+    const DEFAULT_PERSONAL_INFO = {
+      name: 'Prénom NOM',
+      personalDetails: 'Titre\nCertification',
+      contactInfo: 'Tél. 06 12 34 56 78\nEmail : email@example.com',
+      siret: 'SIRET',
     };
 
     render(<TestComponent />, container as RenderOptions);

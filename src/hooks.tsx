@@ -40,20 +40,13 @@ export const usePersonalInfo = () => {
     if (data) {
       setPersonalInfo(data);
     } else {
-      const {
-        REACT_APP_NAME: name,
-        REACT_APP_PERSONAL_DETAILS: personalDetails,
-        REACT_APP_CONTACT_INFO: contactInfo,
-        REACT_APP_SIRET: siret,
-      } = process.env;
-
       setValueInStorage(
         "personalInfo",
         {
-          name,
-          personalDetails,
-          contactInfo,
-          siret,
+          name: 'Prénom NOM',
+          personalDetails: 'Titre\nCertification',
+          contactInfo: 'Tél. 06 12 34 56 78\nEmail : email@example.com',
+          siret: 'SIRET',
         }
       );
     }
