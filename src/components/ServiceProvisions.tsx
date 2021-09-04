@@ -60,9 +60,9 @@ type ServiceProvisionsProps = {
 };
 const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisionsProps) => (
   <>
-    {serviceProvisions.map(({ heading, details, hours }, index) => (
+    {serviceProvisions.map(({ id, heading, details, hours }, index) => (
       <ServiceProvisionRow
-        key={index}
+        key={id}
         heading={heading}
         details={details}
         hours={hours}
@@ -77,12 +77,12 @@ const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisi
             ...serviceProvisions.slice(index + 1),
           ]);
         }}
-        onDelete={() =>
+        onDelete={() => {
           onChange([
             ...serviceProvisions.slice(0, index),
             ...serviceProvisions.slice(index + 1),
           ])
-        }
+        }}
       />
     ))}
   </>

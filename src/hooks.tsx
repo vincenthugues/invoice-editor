@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMaxInvoiceId, getValueFromStorage, setValueInStorage } from "./utils";
 
 export interface ServiceProvision {
+  id: number,
   heading: string,
   details: string,
   hours: number,

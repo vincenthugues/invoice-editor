@@ -55,21 +55,27 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
           <ServiceProvisions
             serviceProvisions={serviceProvisions}
             rate={rate}
-            onChange={(newServiceProvisions: Array<ServiceProvision>) =>
+            onChange={(newServiceProvisions: Array<ServiceProvision>) => {
               updateInvoice({
                 ...invoice,
                 serviceProvisions: newServiceProvisions,
-              })
-            }
+              });
+            }}
           />
         </tbody>
       </table>
       <button
         className="no-print"
         onClick={() => {
+          const maxServiceProvisionId = Math.max(0, ...serviceProvisions.map(({ id }) => id));
           updateInvoice({
             ...invoice,
-            serviceProvisions: [...serviceProvisions, DEFAULT_SERVICE_PROVISION],
+            serviceProvisions: [
+              ...serviceProvisions, {
+                ...DEFAULT_SERVICE_PROVISION,
+                id: maxServiceProvisionId + 1,
+              },
+            ],
           });
         }}
       >

@@ -73,8 +73,10 @@ const EditableField = ({ value: defaultValue, onChange, fieldType }: EditableTex
     const value = Number(valueStr);
     const hours = Math.floor(value);
     const minutes = (value - hours) * 60;
+
     return `${hours}h${minutes ? minutes : ''}`;
   };
+
   return (
     <div onClick={() => setIsEditing(true)}>
       {fieldType === FieldType.Hours ? formatHours(value) : value}
