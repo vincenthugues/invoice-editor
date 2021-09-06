@@ -2,6 +2,7 @@ import { ServiceProvision, useInvoice, usePersonalInfo } from "../hooks";
 import { formatCurrency } from "../utils";
 import ServiceProvisions from "./ServiceProvisions";
 import InvoiceHeader from "./InvoiceHeader";
+import { max, sum } from "lodash";
 
 const DEFAULT_SERVICE_PROVISION = {
   heading: "Titre",
@@ -28,10 +29,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
     rate,
     serviceProvisions,
   } = invoice;
-  const totalAmount = serviceProvisions.reduce(
-    (total, { hours }) => total + hours * rate,
-    0
-  );
+  const totalAmount = sum(serviceProvisions.map(({ hours }) => hours * rate));
 
   return (
     <div className="Invoice">
@@ -55,10 +53,10 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
           <ServiceProvisions
             serviceProvisions={serviceProvisions}
             rate={rate}
-            onChange={(newServiceProvisions: Array<ServiceProvision>) => {
+            onChange={(updatedServiceProvisions: Array<ServiceProvision>) => {
               updateInvoice({
                 ...invoice,
-                serviceProvisions: newServiceProvisions,
+                serviceProvisions: updatedServiceProvisions,
               });
             }}
           />
@@ -67,15 +65,14 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
       <button
         className="no-print"
         onClick={() => {
-          const maxServiceProvisionId = Math.max(0, ...serviceProvisions.map(({ id }) => id));
+          const maxServiceProvisionId = max(serviceProvisions.map(({ id }) => id)) || 0;
+          const newServiceProvision = {
+            ...DEFAULT_SERVICE_PROVISION,
+            id: maxServiceProvisionId + 1,
+          };
           updateInvoice({
             ...invoice,
-            serviceProvisions: [
-              ...serviceProvisions, {
-                ...DEFAULT_SERVICE_PROVISION,
-                id: maxServiceProvisionId + 1,
-              },
-            ],
+            serviceProvisions: [...invoice.serviceProvisions, newServiceProvision],
           });
         }}
       >

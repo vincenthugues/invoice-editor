@@ -1,3 +1,4 @@
+import { reject } from "lodash";
 import { ServiceProvision } from "../hooks";
 import { formatCurrency } from "../utils";
 import EditableField, { FieldType } from "./EditableText";
@@ -68,20 +69,14 @@ const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisi
         hours={hours}
         rate={rate}
         fieldUpdater={(fieldName: string) => (value: string | number) => {
-          onChange([
-            ...serviceProvisions.slice(0, index),
-            {
-              ...serviceProvisions[index],
-              [fieldName]: value,
-            },
-            ...serviceProvisions.slice(index + 1),
-          ]);
+          onChange(serviceProvisions.map((row) =>
+            row.id === id
+              ? { ...row, [fieldName]: value }
+              : row
+          ));
         }}
         onDelete={() => {
-          onChange([
-            ...serviceProvisions.slice(0, index),
-            ...serviceProvisions.slice(index + 1),
-          ])
+          onChange(reject(serviceProvisions, (row) => row.id === id));
         }}
       />
     ))}

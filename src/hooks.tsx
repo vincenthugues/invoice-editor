@@ -1,3 +1,4 @@
+import { reject } from "lodash";
 import { useEffect, useState } from "react";
 import { getMaxInvoiceId, getValueFromStorage, setValueInStorage } from "./utils";
 
@@ -85,11 +86,7 @@ export const useInvoices = () => {
   };
 
   const deleteInvoice = (invoiceId: number) => {
-    const invoiceIndex = invoices.findIndex(({ id }) => id === invoiceId);
-    const updatedInvoices = [
-      ...invoices.slice(0, invoiceIndex),
-      ...invoices.slice(invoiceIndex + 1),
-    ];
+    const updatedInvoices = reject(invoices, ({ id }) => id === invoiceId);
     setValueInStorage("invoices", updatedInvoices);
     setInvoices(updatedInvoices);
   };

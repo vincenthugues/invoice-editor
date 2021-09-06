@@ -1,3 +1,4 @@
+import { max } from "lodash";
 import { Invoice } from "./hooks";
 
 export const getValueFromStorage = (key: string) => {
@@ -19,4 +20,4 @@ export const addDaysToDate = (date: Date, daysToAdd: number): Date => {
   return newDate;
 };
 
-export const getMaxInvoiceId = (invoices: Array<Invoice>) => Math.max(0, ...invoices.map(({ id }) => id));
+export const getMaxInvoiceId = (invoices: Array<Invoice>) => max(invoices.map(({ id }) => id)) || 0;
