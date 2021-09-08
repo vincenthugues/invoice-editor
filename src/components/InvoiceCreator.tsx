@@ -1,3 +1,4 @@
+import { maxBy } from 'lodash';
 import { useState } from 'react';
 import { useInvoices } from '../hooks';
 
@@ -25,8 +26,9 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
   if (!isCreatorOpen) {
     return (
       <button onClick={() => {
+        const maxInvoiceNumber = maxBy(invoices, 'number')?.number;
         setIsCreatorOpen(true);
-        setInvoiceNumber(Math.max(DEFAULT_INVOICE_NUMBER, ...invoices.map(({ number }) => number)) + 1);
+        setInvoiceNumber(maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER);
       }}>
         ➕
       </button>

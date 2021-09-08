@@ -65,7 +65,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
       <button
         className="no-print"
         onClick={() => {
-          const maxServiceProvisionId = max(serviceProvisions.map(({ id }) => id)) || 0;
+          const maxServiceProvisionId = maxBy(serviceProvisions, 'id')?.id || 0;
           const newServiceProvision = {
             ...DEFAULT_SERVICE_PROVISION,
             id: maxServiceProvisionId + 1,
