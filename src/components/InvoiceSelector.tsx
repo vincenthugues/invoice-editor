@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useInvoices } from '../hooks';
 import InvoiceCreator from './InvoiceCreator';
 
@@ -8,14 +9,17 @@ type InvoiceSelectorProps = {
 };
 const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProps) => {
   const [invoices] = useInvoices();
+  const [isCreatorOpen, setIsCreatorOpen] = useState(false);
 
   return (
     <div className="InvoiceSelector">
       <select
         value={selectedId || ''}
-        onChange={({ target: { value } }) =>
-          onChange(value ? Number(value) : null)
-        }
+        onChange={({ target: { value } }) => {
+          onChange(value ? Number(value) : null);
+          setIsCreatorOpen(false);
+        }}
+        disabled={isCreatorOpen}
       >
         <option value="">--Sélectionner une facture--</option>
         {invoices.map(({ id, number, date, patientName }) => (
@@ -24,7 +28,12 @@ const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProp
           </option>
         ))}
       </select>
-      <InvoiceCreator onCreate={onChange} />
+      <InvoiceCreator
+        isOpen={isCreatorOpen}
+        onOpen={() => { onChange(null); setIsCreatorOpen(true); }}
+        onClose={() => { setIsCreatorOpen(false); }}
+        onCreate={onChange}
+      />
       <button
         onClick={() => {
           if (window.confirm('Supprimer la facture ?')) onDelete(selectedId);

@@ -6,11 +6,13 @@ const DEFAULT_INVOICE_NUMBER = 20210000;
 const DEFAULT_INVOICE_RATE = 50;
 
 type InvoiceCreatorProps = {
+  isOpen: Boolean,
+  onOpen: Function,
+  onClose: Function,
   onCreate: Function,
 };
-const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
+const InvoiceCreator = ({ isOpen, onOpen, onClose, onCreate }: InvoiceCreatorProps) => {
   const [invoices, createInvoice] = useInvoices();
-  const [isCreatorOpen, setIsCreatorOpen] = useState(false);
   const [invoiceNumber, setInvoiceNumber] = useState(DEFAULT_INVOICE_NUMBER);
   const [invoiceClient, setInvoiceClient] = useState('');
   const [invoicePatient, setInvoicePatient] = useState('');
@@ -23,11 +25,11 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
     && invoiceRate
     && invoiceRate > 0;
 
-  if (!isCreatorOpen) {
+  if (!isOpen) {
     return (
       <button onClick={() => {
         const maxInvoiceNumber = maxBy(invoices, 'number')?.number;
-        setIsCreatorOpen(true);
+        onOpen();
         setInvoiceNumber(maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER);
       }}>
         ➕
@@ -87,14 +89,14 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
               rate: Number(invoiceRate),
             });
             onCreate(newInvoiceId);
-            setIsCreatorOpen(false);
+            onClose();
           }}
           type="submit"
           disabled={!isFormValid}
         >
           Valider
         </button>
-        <button onClick={() => setIsCreatorOpen(false)}>Annuler</button>
+        <button onClick={() => onClose()}>Annuler</button>
       </div>
     </form>
   );
