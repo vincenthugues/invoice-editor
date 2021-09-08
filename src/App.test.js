@@ -4,7 +4,7 @@ import App from './App';
 describe('App', () => {
   it('renders with header', () => {
     render(<App />);
-    expect(screen.getByRole("heading")).toHaveTextContent("Facturation");
+    expect(screen.getByRole('heading')).toHaveTextContent('Facturation');
   });
 
   it('renders with invoice table', () => {

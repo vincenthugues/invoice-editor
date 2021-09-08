@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { usePersonalInfo } from "./hooks";
+import { render, screen } from '@testing-library/react';
+import { usePersonalInfo } from './hooks';
 import { getValueFromStorage, setValueInStorage } from './utils';
 
 jest.mock('./utils');

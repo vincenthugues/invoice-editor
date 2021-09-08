@@ -1,5 +1,5 @@
-import { usePersonalInfo } from "../hooks";
-import { addDaysToDate } from "../utils";
+import { usePersonalInfo } from '../hooks';
+import { addDaysToDate } from '../utils';
 
 type InvoiceHeaderProps = {
   invoiceNumber: number,
@@ -32,10 +32,10 @@ const InvoiceHeader = ({ invoiceNumber, date, clientName, patientName }: Invoice
         </div>
         <br />
         <div>
-          <b>Date :</b> {invoiceDate.toLocaleDateString("fr-FR")}
+          <b>Date :</b> {invoiceDate.toLocaleDateString('fr-FR')}
         </div>
         <div>
-          <b>Echéance :</b> {deadline.toLocaleDateString("fr-FR")}
+          <b>Echéance :</b> {deadline.toLocaleDateString('fr-FR')}
         </div>
         <br />
         <div>

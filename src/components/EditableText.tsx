@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export enum FieldType {
   Text,

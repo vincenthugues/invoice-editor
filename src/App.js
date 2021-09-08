@@ -1,8 +1,8 @@
-import { useState } from "react";
-import "./App.css";
-import InvoiceEditor from "./components/InvoiceEditor";
-import InvoiceSelector from "./components/InvoiceSelector";
-import { useInvoices } from "./hooks";
+import { useState } from 'react';
+import './App.css';
+import InvoiceEditor from './components/InvoiceEditor';
+import InvoiceSelector from './components/InvoiceSelector';
+import { useInvoices } from './hooks';
 
 const App = () => {
   const [, , deleteInvoice] = useInvoices();

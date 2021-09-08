@@ -1,5 +1,5 @@
-import { max } from "lodash";
-import { Invoice } from "./hooks";
+import { max } from 'lodash';
+import { Invoice } from './hooks';
 
 export const getValueFromStorage = (key: string) => {
   const storedData = localStorage.getItem(key);
@@ -11,7 +11,7 @@ export const setValueInStorage = (key: string, value: any) => {
 };
 
 export const formatCurrency = (number: number): string =>
-  number.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+  number.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
 
 export const addDaysToDate = (date: Date, daysToAdd: number): Date => {
   const newDate = new Date(date);

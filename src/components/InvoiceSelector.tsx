@@ -1,5 +1,5 @@
-import { useInvoices } from "../hooks";
-import InvoiceCreator from "./InvoiceCreator";
+import { useInvoices } from '../hooks';
+import InvoiceCreator from './InvoiceCreator';
 
 type InvoiceSelectorProps = {
   selectedId: number,
@@ -12,7 +12,7 @@ const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProp
   return (
     <div className="InvoiceSelector">
       <select
-        value={selectedId || ""}
+        value={selectedId || ''}
         onChange={({ target: { value } }) =>
           onChange(value ? Number(value) : null)
         }
@@ -20,14 +20,14 @@ const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProp
         <option value="">--Sélectionner une facture--</option>
         {invoices.map(({ id, number, date, patientName }) => (
           <option key={id} value={id}>
-            {number} {new Date(date).toLocaleDateString("fr-FR")} {patientName}
+            {number} {new Date(date).toLocaleDateString('fr-FR')} {patientName}
           </option>
         ))}
       </select>
       <InvoiceCreator onCreate={onChange} />
       <button
         onClick={() => {
-          if (window.confirm("Supprimer la facture ?")) onDelete(selectedId);
+          if (window.confirm('Supprimer la facture ?')) onDelete(selectedId);
         }}
         disabled={!selectedId}
       >

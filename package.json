@@ -23,6 +23,8 @@
     "@types/lodash": "^4.14.172",
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.7",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.3.2",
     "source-map-loader": "^3.0.0",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.2"
@@ -31,7 +33,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "quotes": [
+        2,
+        "single",
+        {
+          "avoidEscape": true
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

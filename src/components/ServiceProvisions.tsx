@@ -1,7 +1,7 @@
-import { reject } from "lodash";
-import { ServiceProvision } from "../hooks";
-import { formatCurrency } from "../utils";
-import EditableField, { FieldType } from "./EditableText";
+import { reject } from 'lodash';
+import { ServiceProvision } from '../hooks';
+import { formatCurrency } from '../utils';
+import EditableField, { FieldType } from './EditableText';
 
 type ServiceProvisionRowProps = {
   heading: string,
@@ -22,12 +22,12 @@ const ServiceProvisionRow = ({
   <tr>
     <td>
       <b>
-        <EditableField value={heading} onChange={fieldUpdater("heading")} />
+        <EditableField value={heading} onChange={fieldUpdater('heading')} />
       </b>
       <br />
       <EditableField
         value={details}
-        onChange={fieldUpdater("details")}
+        onChange={fieldUpdater('details')}
         fieldType={FieldType.TextArea}
       />
     </td>
@@ -35,7 +35,7 @@ const ServiceProvisionRow = ({
       <div className="CellRow">
         <EditableField
           value={String(hours)}
-          onChange={fieldUpdater("hours")}
+          onChange={fieldUpdater('hours')}
           fieldType={FieldType.Hours}
         />
       </div>
@@ -45,7 +45,7 @@ const ServiceProvisionRow = ({
     <td className="LastColumn no-print">
       <button
         onClick={() => {
-          if (window.confirm("Supprimer la ligne ?")) onDelete();
+          if (window.confirm('Supprimer la ligne ?')) onDelete();
         }}
       >
         ❌

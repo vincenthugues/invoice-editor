@@ -20,7 +20,7 @@ describe('addDaysToDate', () => {
   });
 });
 
-describe("getMaxInvoiceId", () => {
+describe('getMaxInvoiceId', () => {
   it('returns the greatest id in a list of Invoices', () => {
     const MOCK_INVOICE = {
       number: 20210101,

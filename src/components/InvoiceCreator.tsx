@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useInvoices } from "../hooks";
+import { useState } from 'react';
+import { useInvoices } from '../hooks';
 
 const DEFAULT_INVOICE_NUMBER = 20210000;
 const DEFAULT_INVOICE_RATE = 50;

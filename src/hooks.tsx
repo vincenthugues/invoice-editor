@@ -1,6 +1,6 @@
-import { reject } from "lodash";
-import { useEffect, useState } from "react";
-import { getMaxInvoiceId, getValueFromStorage, setValueInStorage } from "./utils";
+import { reject } from 'lodash';
+import { useEffect, useState } from 'react';
+import { getMaxInvoiceId, getValueFromStorage, setValueInStorage } from './utils';
 
 export interface ServiceProvision {
   id: number,
@@ -37,13 +37,13 @@ export const usePersonalInfo = () => {
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo>();
 
   useEffect(() => {
-    const data = getValueFromStorage("personalInfo");
+    const data = getValueFromStorage('personalInfo');
 
     if (data) {
       setPersonalInfo(data);
     } else {
       setValueInStorage(
-        "personalInfo",
+        'personalInfo',
         {
           name: 'Prénom NOM',
           personalDetails: 'Titre\nCertification',
@@ -61,12 +61,12 @@ export const useInvoices = () => {
   const [invoices, setInvoices] = useState<Array<Invoice>>([]);
 
   useEffect(() => {
-    const data = getValueFromStorage("invoices");
+    const data = getValueFromStorage('invoices');
 
     if (data) {
       setInvoices(data);
     } else {
-      setValueInStorage("invoices", []);
+      setValueInStorage('invoices', []);
     }
   }, []);
 
@@ -80,14 +80,14 @@ export const useInvoices = () => {
     } as Invoice;
 
     const updatedInvoices = [...invoices, newInvoice];
-    setValueInStorage("invoices", updatedInvoices);
+    setValueInStorage('invoices', updatedInvoices);
     setInvoices(updatedInvoices);
     return newId;
   };
 
   const deleteInvoice = (invoiceId: number) => {
     const updatedInvoices = reject(invoices, ({ id }) => id === invoiceId);
-    setValueInStorage("invoices", updatedInvoices);
+    setValueInStorage('invoices', updatedInvoices);
     setInvoices(updatedInvoices);
   };
 
@@ -98,18 +98,18 @@ export const useInvoice = (invoiceId: number) => {
   const [invoice, setInvoice] = useState<Invoice>();
 
   useEffect(() => {
-    const data = getValueFromStorage("invoices");
+    const data = getValueFromStorage('invoices');
     const storedInvoice = data?.find(({ id }: Invoice) => id === invoiceId);
 
     setInvoice(storedInvoice);
   }, [invoiceId]);
 
   const updateInvoice = (newInvoice: Invoice) => {
-    const storedInvoices = getValueFromStorage("invoices");
+    const storedInvoices = getValueFromStorage('invoices');
     const updatedInvoices = storedInvoices.map((invoice: Invoice) =>
       invoice.id === invoiceId ? newInvoice : invoice
     );
-    setValueInStorage("invoices", updatedInvoices);
+    setValueInStorage('invoices', updatedInvoices);
     setInvoice(newInvoice);
   };
 

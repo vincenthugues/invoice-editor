@@ -1,17 +1,17 @@
-import { ServiceProvision, useInvoice, usePersonalInfo } from "../hooks";
-import { formatCurrency } from "../utils";
-import ServiceProvisions from "./ServiceProvisions";
-import InvoiceHeader from "./InvoiceHeader";
-import { max, sum } from "lodash";
+import { ServiceProvision, useInvoice, usePersonalInfo } from '../hooks';
+import { formatCurrency } from '../utils';
+import ServiceProvisions from './ServiceProvisions';
+import InvoiceHeader from './InvoiceHeader' ;
+import { maxBy, sum } from 'lodash';
 
 const DEFAULT_SERVICE_PROVISION = {
-  heading: "Titre",
-  details: "Détails",
+  heading: 'Titre',
+  details: 'Détails',
   hours: 1,
 };
 
 type InvoiceEditorProps = {
-  invoiceId: number,
+  invoiceId: number;
 };
 const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
   const [personalInfo] = usePersonalInfo();
@@ -72,7 +72,10 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
           };
           updateInvoice({
             ...invoice,
-            serviceProvisions: [...invoice.serviceProvisions, newServiceProvision],
+            serviceProvisions: [
+              ...invoice.serviceProvisions,
+              newServiceProvision,
+            ],
           });
         }}
       >
