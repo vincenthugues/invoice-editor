@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import './App.css';
-import InvoiceEditor from './components/InvoiceEditor';
+import PersonalInfoEditor from './components/PersonalInfoEditor';
 import InvoiceSelector from './components/InvoiceSelector';
+import InvoiceEditor from './components/InvoiceEditor';
 import { useInvoices } from './hooks';
 
 const App = () => {
@@ -12,13 +13,14 @@ const App = () => {
     <div className="App">
       <header className="App-header no-print">
         <h1>Facturation</h1>
+        <PersonalInfoEditor />
         <InvoiceSelector
           selectedId={selectedInvoiceId}
-          onChange={(id) => setSelectedInvoiceId(id)}
-          onDelete={(id) => deleteInvoice(id)}
+          onChange={(id: any) => setSelectedInvoiceId(id)}
+          onDelete={(id: number) => deleteInvoice(id)}
         />
       </header>
-      {selectedInvoiceId && <InvoiceEditor invoiceId={selectedInvoiceId} />}
+      {selectedInvoiceId && <InvoiceEditor invoiceId={(selectedInvoiceId as unknown as number)} />}
     </div>
   );
 };

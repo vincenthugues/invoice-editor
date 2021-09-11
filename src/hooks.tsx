@@ -54,7 +54,12 @@ export const usePersonalInfo = () => {
     }
   }, []);
 
-  return [personalInfo, setPersonalInfo] as const;
+  const updatePersonalInfo = (newInfo: PersonalInfo) => {
+    setValueInStorage('personalInfo', newInfo);
+    setPersonalInfo(newInfo);
+  };
+
+  return [personalInfo, updatePersonalInfo] as const;
 };
 
 export const useInvoices = () => {

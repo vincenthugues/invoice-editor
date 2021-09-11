@@ -3,7 +3,7 @@ import { useInvoices } from '../hooks';
 import InvoiceCreator from './InvoiceCreator';
 
 type InvoiceSelectorProps = {
-  selectedId: number,
+  selectedId: number | undefined,
   onChange: Function,
   onDelete: Function,
 };
