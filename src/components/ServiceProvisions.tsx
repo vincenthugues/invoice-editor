@@ -76,7 +76,7 @@ const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisi
           ));
         }}
         onDelete={() => {
-          onChange(reject(serviceProvisions, (row) => row.id === id));
+          onChange(reject(serviceProvisions, { id }));
         }}
       />
     ))}

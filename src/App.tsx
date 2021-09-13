@@ -16,8 +16,8 @@ const App = () => {
         <PersonalInfoEditor />
         <InvoiceSelector
           selectedId={selectedInvoiceId}
-          onChange={(id: any) => setSelectedInvoiceId(id)}
-          onDelete={(id: number) => deleteInvoice(id)}
+          onChange={(id: any) => { setSelectedInvoiceId(id); }}
+          onDelete={(id: number) => { deleteInvoice(id); setSelectedInvoiceId(undefined); }}
         />
       </header>
       {selectedInvoiceId && <InvoiceEditor invoiceId={(selectedInvoiceId as unknown as number)} />}
