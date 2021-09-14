@@ -3,11 +3,15 @@ import './App.css';
 import PersonalInfoEditor from './components/PersonalInfoEditor';
 import InvoiceSelector from './components/InvoiceSelector';
 import InvoiceEditor from './components/InvoiceEditor';
-import { useInvoices } from './hooks';
+import { Invoice, useInvoices } from './hooks';
 
 const App = () => {
-  const [, , deleteInvoice] = useInvoices();
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState();
+  const [invoices, createInvoice, deleteInvoice] = useInvoices();
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<number | undefined>();
+
+  const onInvoiceChange = (id: number | undefined) => { setSelectedInvoiceId(id); };
+  const onInvoiceCreate = (newInvoice: Invoice) => { const id = createInvoice(newInvoice); setSelectedInvoiceId(id); };
+  const onInvoiceDelete = (id: number) => { deleteInvoice(id); setSelectedInvoiceId(undefined); };
 
   return (
     <div className="App">
@@ -15,12 +19,14 @@ const App = () => {
         <h1>Facturation</h1>
         <PersonalInfoEditor />
         <InvoiceSelector
+          invoices={invoices}
           selectedId={selectedInvoiceId}
-          onChange={(id: any) => { setSelectedInvoiceId(id); }}
-          onDelete={(id: number) => { deleteInvoice(id); setSelectedInvoiceId(undefined); }}
+          onChange={onInvoiceChange}
+          onCreate={onInvoiceCreate}
+          onDelete={onInvoiceDelete}
         />
       </header>
-      {selectedInvoiceId && <InvoiceEditor invoiceId={(selectedInvoiceId as unknown as number)} />}
+      {selectedInvoiceId && <InvoiceEditor invoiceId={selectedInvoiceId} />}
     </div>
   );
 };

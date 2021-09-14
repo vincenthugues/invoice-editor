@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { useInvoices } from '../hooks';
+import { Invoice } from '../hooks';
 import InvoiceCreator from './InvoiceCreator';
 
 type InvoiceSelectorProps = {
+  invoices: Array<Invoice>,
   selectedId: number | undefined,
   onChange: Function,
+  onCreate: Function,
   onDelete: Function,
 };
-const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProps) => {
-  const [invoices] = useInvoices();
+const InvoiceSelector = ({ invoices, selectedId, onChange, onCreate, onDelete }: InvoiceSelectorProps) => {
   const [isCreatorOpen, setIsCreatorOpen] = useState(false);
 
   return (
@@ -32,7 +33,7 @@ const InvoiceSelector = ({ selectedId, onChange, onDelete }: InvoiceSelectorProp
         isOpen={isCreatorOpen}
         onOpen={() => { onChange(null); setIsCreatorOpen(true); }}
         onClose={() => { setIsCreatorOpen(false); }}
-        onCreate={onChange}
+        onCreate={onCreate}
       />
       <button
         onClick={() => {

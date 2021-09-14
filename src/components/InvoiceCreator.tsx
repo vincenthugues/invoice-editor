@@ -12,7 +12,7 @@ type InvoiceCreatorProps = {
   onCreate: Function,
 };
 const InvoiceCreator = ({ isOpen, onOpen, onClose, onCreate }: InvoiceCreatorProps) => {
-  const [invoices, createInvoice] = useInvoices();
+  const [invoices] = useInvoices();
   const [invoiceNumber, setInvoiceNumber] = useState(DEFAULT_INVOICE_NUMBER);
   const [invoiceClient, setInvoiceClient] = useState('');
   const [invoicePatient, setInvoicePatient] = useState('');
@@ -82,14 +82,13 @@ const InvoiceCreator = ({ isOpen, onOpen, onClose, onCreate }: InvoiceCreatorPro
       <div>
         <button
           onClick={() => {
-            const newInvoiceId = createInvoice({
+            onClose();
+            onCreate({
               number: invoiceNumber,
               clientName: invoiceClient,
               patientName: invoicePatient,
               rate: Number(invoiceRate),
             });
-            onCreate(newInvoiceId);
-            onClose();
           }}
           type="submit"
           disabled={!isFormValid}
