@@ -1,103 +1,57 @@
 import { maxBy } from 'lodash';
 import { useState } from 'react';
+import Modal, { ModalInput, ModalInputType } from './Modal';
 import { useInvoices } from '../hooks';
 
 const DEFAULT_INVOICE_NUMBER = 20210000;
 const DEFAULT_INVOICE_RATE = 50;
 
 type InvoiceCreatorProps = {
-  isOpen: Boolean,
-  onOpen: Function,
-  onClose: Function,
   onCreate: Function,
 };
-const InvoiceCreator = ({ isOpen, onOpen, onClose, onCreate }: InvoiceCreatorProps) => {
+const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
   const [invoices] = useInvoices();
-  const [invoiceNumber, setInvoiceNumber] = useState(DEFAULT_INVOICE_NUMBER);
-  const [invoiceClient, setInvoiceClient] = useState('');
-  const [invoicePatient, setInvoicePatient] = useState('');
-  const [invoiceRate, setInvoiceRate] = useState(DEFAULT_INVOICE_RATE);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [numberInput, setNumberInput] = useState(DEFAULT_INVOICE_NUMBER);
+  const [clientInput, setClientInput] = useState('');
+  const [patientInput, setPatientInput] = useState('');
+  const [rateInput, setRateInput] = useState(DEFAULT_INVOICE_RATE);
 
-  const isFormValid = invoiceNumber
-    && !invoices.find(({ number }) => number === invoiceNumber)
-    && invoiceClient
-    && invoicePatient
-    && invoiceRate
-    && invoiceRate > 0;
+  const onSubmit = () => {
+    onCreate({
+      number: numberInput,
+      clientName: clientInput,
+      patientName: patientInput,
+      rate: Number(rateInput),
+    });
+    setIsModalOpen(false);
+  };
 
-  if (!isOpen) {
-    return (
-      <button onClick={() => {
-        const maxInvoiceNumber = maxBy(invoices, 'number')?.number;
-        onOpen();
-        setInvoiceNumber(maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER);
-      }}>
-        ➕
-      </button>
-    );
-  }
+  const isFormValid = !!numberInput
+    && !invoices.find(({ number }) => number === numberInput)
+    && !!clientInput
+    && !!patientInput
+    && !!rateInput
+    && rateInput > 0;
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <div>
-        <label htmlFor="number">Numéro</label>
-        <input
-          id="number"
-          name="number"
-          type="number"
-          value={invoiceNumber}
-          onChange={({ target: { value } }) => setInvoiceNumber(Number(value))}
-        />
-      </div>
-      <div>
-        <label htmlFor="client">Client</label>
-        <input
-          id="client"
-          name="client"
-          type="text"
-          value={invoiceClient}
-          onChange={({ target: { value } }) => setInvoiceClient(value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="patient">Patient</label>
-        <input
-          id="patient"
-          name="patient"
-          type="text"
-          value={invoicePatient}
-          onChange={({ target: { value } }) => setInvoicePatient(value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="rate">Taux</label>
-        <input
-          id="rate"
-          name="rate"
-          type="number"
-          value={invoiceRate}
-          onChange={({ target: { value } }) => setInvoiceRate(Number(value))}
-        />
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            onClose();
-            onCreate({
-              number: invoiceNumber,
-              clientName: invoiceClient,
-              patientName: invoicePatient,
-              rate: Number(invoiceRate),
-            });
-          }}
-          type="submit"
-          disabled={!isFormValid}
-        >
-          Valider
-        </button>
-        <button onClick={() => onClose()}>Annuler</button>
-      </div>
-    </form>
+    <>
+      <button onClick={() => {
+        const maxInvoiceNumber = maxBy(invoices, 'number')?.number;
+        setNumberInput(maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER);
+        setIsModalOpen(true);
+      }} disabled={isModalOpen}>
+        ➕
+      </button>
+      {isModalOpen && (
+        <Modal title="Nouvelle facture" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)} isFormValid={isFormValid as boolean}>
+          <ModalInput type={ModalInputType.NumberInput} label="Numéro" defaultValue={numberInput} onChange={setNumberInput} />
+          <ModalInput label="Client" size={24} defaultValue={clientInput} onChange={setClientInput} />
+          <ModalInput label="Patient" size={24} defaultValue={patientInput} onChange={setPatientInput} />
+          <ModalInput type={ModalInputType.NumberInput} label="Taux" defaultValue={rateInput} onChange={setRateInput} />
+        </Modal>
+      )}
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import PersonalInfoEditor from './components/PersonalInfoEditor';
 import InvoiceSelector from './components/InvoiceSelector';
+import InvoiceCreator from './components/InvoiceCreator';
 import InvoiceEditor from './components/InvoiceEditor';
 import { Invoice, useInvoices } from './hooks';
 
@@ -10,7 +11,7 @@ const App = () => {
   const [selectedInvoiceId, setSelectedInvoiceId] = useState<number | undefined>();
 
   const onInvoiceChange = (id: number | undefined) => { setSelectedInvoiceId(id); };
-  const onInvoiceCreate = (newInvoice: Invoice) => { const id = createInvoice(newInvoice); setSelectedInvoiceId(id); };
+  const onInvoiceCreate = (invoiceDraft: Invoice) => { const id = createInvoice(invoiceDraft); setSelectedInvoiceId(id); };
   const onInvoiceDelete = (id: number) => { deleteInvoice(id); setSelectedInvoiceId(undefined); };
 
   return (
@@ -22,9 +23,9 @@ const App = () => {
           invoices={invoices}
           selectedId={selectedInvoiceId}
           onChange={onInvoiceChange}
-          onCreate={onInvoiceCreate}
           onDelete={onInvoiceDelete}
         />
+        <InvoiceCreator onCreate={onInvoiceCreate} />
       </header>
       {selectedInvoiceId && <InvoiceEditor invoiceId={selectedInvoiceId} />}
     </div>

@@ -1,14 +1,15 @@
 import { PropsWithChildren } from 'react';
 
 export enum ModalInputType {
-  Input,
+  TextInput,
+  NumberInput,
   TextArea,
-}
+};
 
 type ModalInputProps = {
   type?: ModalInputType,
   label: string,
-  defaultValue: string,
+  defaultValue: string | number,
   onChange: Function,
   size?: number,
   rows?: number,
@@ -30,9 +31,13 @@ export const ModalInput = ({ type, label, defaultValue, onChange, size, rows, co
     ) : (
       <input
         id={`${label}_input`}
+        type={type === ModalInputType.NumberInput ? 'number' : 'text'}
         defaultValue={defaultValue}
-        onChange={({ target: { value }}) => { onChange(value); }}
+        onChange={({ target: { value }}) => {
+          onChange(type === ModalInputType.NumberInput ? Number(value) : value);
+        }}
         size={size}
+        min={1}
       />
     )}
   </>
@@ -42,15 +47,16 @@ type ModalProps = {
   title: string,
   onSubmit: Function,
   onClose: Function,
+  isFormValid?: boolean,
 };
-const Modal = ({ title, onSubmit, onClose, children }: PropsWithChildren<ModalProps>) => (
+const Modal = ({ title, onSubmit, onClose, isFormValid, children }: PropsWithChildren<ModalProps>) => (
   <div className="modal-background">
     <div className="modal">
       <h1>{title}</h1>
       <form onSubmit={(e) => { onSubmit(); e.preventDefault(); }}>
         {children}
         <div className="form-buttons">
-          <button type="submit">✔️ Enregistrer</button>
+          <button type="submit" disabled={isFormValid === false} >✔️ Enregistrer</button>
           <button onClick={() => { onClose(); }}>❌ Annuler</button>
         </div>
       </form>
