@@ -41,7 +41,7 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
         setNumberInput(maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER);
         setIsModalOpen(true);
       }} disabled={isModalOpen}>
-        ➕
+        ➕ Nouvelle facture
       </button>
       {isModalOpen && (
         <Modal title="Nouvelle facture" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)} isFormValid={isFormValid as boolean}>

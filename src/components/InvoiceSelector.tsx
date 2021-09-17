@@ -2,11 +2,10 @@ import { Invoice } from '../hooks';
 
 type InvoiceSelectorProps = {
   invoices: Array<Invoice>,
-  selectedId: number | undefined,
+  selectedId: number | null,
   onChange: Function,
-  onDelete: Function,
 };
-const InvoiceSelector = ({ invoices, selectedId, onChange, onDelete }: InvoiceSelectorProps) => (
+const InvoiceSelector = ({ invoices, selectedId, onChange }: InvoiceSelectorProps) => (
   <div className="InvoiceSelector">
     <select
       value={selectedId || ''}
@@ -21,14 +20,6 @@ const InvoiceSelector = ({ invoices, selectedId, onChange, onDelete }: InvoiceSe
         </option>
       ))}
     </select>
-    <button
-      onClick={() => {
-        if (window.confirm('Supprimer la facture ?')) onDelete(selectedId);
-      }}
-      disabled={!selectedId}
-    >
-      ❌
-    </button>
   </div>
 );
 

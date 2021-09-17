@@ -55,7 +55,7 @@ const Modal = ({ title, onSubmit, onClose, isFormValid, children }: PropsWithChi
       <h1>{title}</h1>
       <form onSubmit={(e) => { onSubmit(); e.preventDefault(); }}>
         {children}
-        <div className="form-buttons">
+        <div className="modal-form-buttons">
           <button type="submit" disabled={isFormValid === false} >✔️ Enregistrer</button>
           <button onClick={() => { onClose(); }}>❌ Annuler</button>
         </div>

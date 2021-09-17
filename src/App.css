@@ -13,34 +13,49 @@
   text-align: center;
 }
 
-.App-header {
+header {
   background-color: #15303c;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-header form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-size: 1rem;
+header::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-.App-header form div {
-  padding: 4px;
+.HeaderContent {
+  width: 80%;
+  margin: 0 auto;
 }
 
-.App-header form div * {
-  padding: 2px 6px;
+.HeaderContent h1 {
+  float: left;
+  font-size: 1.5em;
 }
 
-h1 {
-  font-size: 2rem;
+.HeaderContent nav {
+  float: right;
+
+  padding-top: 20px;
+}
+
+.HeaderContent nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.HeaderContent nav li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.HeaderContent nav li button {
+  background: none !important;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
 .Invoice {
@@ -166,12 +181,26 @@ hr {
   margin: 0 0 0 4px;
 }
 
-.form-buttons {
+.modal-form-buttons {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
-.form-buttons button {
+.modal button,
+.HeaderContent .modal button {
+  color: black;
   margin: 0 4px;
+}
+
+.modal button:hover,
+.HeaderContent .modal button:hover {
+  color: #15303c;
+  text-decoration: dashed underline;
+}
+
+.modal button:active,
+.HeaderContent .modal button:active {
+  color: grey;
+  text-decoration: none;
 }
