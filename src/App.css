@@ -5,12 +5,13 @@
   }
 
   * {
-    font-size: 9px;
+    font-size: 16pt;
   }
 }
 
 .App {
-  text-align: center;
+  background-color: whitesmoke;
+  height: 100vh;
 }
 
 header {
@@ -59,10 +60,11 @@ header::after {
 }
 
 .Invoice {
-  max-width: 800px;
-  margin: 1em auto;
-  display: flex;
-  flex-direction: column;
+  background-color: white;
+  max-width: 80%;
+  margin: auto;
+  padding: 1.5em 3em;
+  text-align: center;
 }
 
 .InvoiceRow {
