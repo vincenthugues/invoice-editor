@@ -14,8 +14,10 @@ type ModalInputProps = {
   size?: number,
   rows?: number,
   cols?: number,
+  min?: number,
+  step?: number,
 };
-export const ModalInput = ({ type, label, defaultValue, onChange, size, rows, cols }: ModalInputProps) => (
+export const ModalInput = ({ type, label, defaultValue, onChange, size, rows, cols, min, step }: ModalInputProps) => (
   <>
     <label htmlFor={`${label}_input`}>
       {label}
@@ -37,7 +39,8 @@ export const ModalInput = ({ type, label, defaultValue, onChange, size, rows, co
           onChange(type === ModalInputType.NumberInput ? Number(value) : value);
         }}
         size={size}
-        min={1}
+        min={min ?? 1}
+        step={step}
       />
     )}
   </>

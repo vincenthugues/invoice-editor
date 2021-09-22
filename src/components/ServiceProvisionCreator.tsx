@@ -43,7 +43,7 @@ const ServiceProvisionCreator = ({ serviceProvisions, onCreate }: ServiceProvisi
         <Modal title="Nouveau service" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)} isFormValid={isFormValid}>
           <ModalInput label="Titre" size={44} defaultValue={headingInput} onChange={setHeadingInput} />
           <ModalInput type={ModalInputType.TextArea} label="Détails" rows={5} cols={40} defaultValue={detailsInput} onChange={setDetailsInput} />
-          <ModalInput type={ModalInputType.NumberInput} label="Heures" defaultValue={hoursInput} onChange={setHoursInput} />
+          <ModalInput type={ModalInputType.NumberInput} min={.25} step={.25} label="Heures" defaultValue={hoursInput} onChange={setHoursInput} />
         </Modal>
       )}
     </>
