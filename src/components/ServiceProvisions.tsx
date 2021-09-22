@@ -45,7 +45,9 @@ const ServiceProvisionRow = ({
     <td className="LastColumn no-print">
       <button
         onClick={() => {
-          if (window.confirm('Supprimer la ligne ?')) onDelete();
+          if (window.confirm('Supprimer la ligne ?')) {
+            onDelete();
+          }
         }}
       >
         ❌
@@ -61,7 +63,7 @@ type ServiceProvisionsProps = {
 };
 const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisionsProps) => (
   <>
-    {serviceProvisions.map(({ id, heading, details, hours }, index) => (
+    {serviceProvisions.map(({ id, heading, details, hours }) => (
       <ServiceProvisionRow
         key={id}
         heading={heading}

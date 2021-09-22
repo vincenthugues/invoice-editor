@@ -1,14 +1,9 @@
+import { sum } from 'lodash';
+import InvoiceHeader from './InvoiceHeader' ;
+import ServiceProvisions from './ServiceProvisions';
+import ServiceProvisionCreator from './ServiceProvisionCreator';
 import { ServiceProvision, useInvoice, usePersonalInfo } from '../hooks';
 import { formatCurrency } from '../utils';
-import ServiceProvisions from './ServiceProvisions';
-import InvoiceHeader from './InvoiceHeader' ;
-import { maxBy, sum } from 'lodash';
-
-const DEFAULT_SERVICE_PROVISION = {
-  heading: 'Titre',
-  details: 'Détails',
-  hours: 1,
-};
 
 type InvoiceEditorProps = {
   invoiceId: number;
@@ -62,14 +57,9 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
           />
         </tbody>
       </table>
-      <button
-        className="no-print"
-        onClick={() => {
-          const maxServiceProvisionId = maxBy(serviceProvisions, 'id')?.id || 0;
-          const newServiceProvision = {
-            ...DEFAULT_SERVICE_PROVISION,
-            id: maxServiceProvisionId + 1,
-          };
+      <ServiceProvisionCreator
+        serviceProvisions={serviceProvisions}
+        onCreate={(newServiceProvision: ServiceProvision) => {
           updateInvoice({
             ...invoice,
             serviceProvisions: [
@@ -78,9 +68,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
             ],
           });
         }}
-      >
-        Nouvelle ligne
-      </button>
+      />
       <div className="AlignRight">
         <div>
           <b>Total brut</b>
