@@ -1,48 +1,38 @@
 import { reject } from 'lodash';
 import { ServiceProvision } from '../hooks';
 import { formatCurrency } from '../utils';
-import EditableField, { FieldType } from './EditableText';
+import ServiceProvisionEditor from './ServiceProvisionEditor';
 
 type ServiceProvisionRowProps = {
-  heading: string,
-  details: string,
-  hours: number,
+  serviceProvision: ServiceProvision,
   rate: number,
-  fieldUpdater: Function,
+  onChange: Function,
   onDelete: Function,
 };
 const ServiceProvisionRow = ({
-  heading,
-  details,
-  hours,
+  serviceProvision,
   rate,
-  fieldUpdater,
+  onChange,
   onDelete,
 }: ServiceProvisionRowProps) => (
   <tr>
     <td>
-      <b>
-        <EditableField value={heading} onChange={fieldUpdater('heading')} />
-      </b>
+      <b>{serviceProvision.heading}</b>
       <br />
-      <EditableField
-        value={details}
-        onChange={fieldUpdater('details')}
-        fieldType={FieldType.TextArea}
-      />
+      {serviceProvision.details}
     </td>
     <td>
       <div className="CellRow">
-        <EditableField
-          value={String(hours)}
-          onChange={fieldUpdater('hours')}
-          fieldType={FieldType.Hours}
-        />
+        {serviceProvision.hours}
       </div>
     </td>
     <td align="center">{formatCurrency(rate)}</td>
-    <td align="center">{formatCurrency(hours * rate)}</td>
+    <td align="center">{formatCurrency(serviceProvision.hours * rate)}</td>
     <td className="LastColumn no-print">
+      <ServiceProvisionEditor
+        serviceProvision={serviceProvision}
+        onSave={onChange}
+      />
       <button
         onClick={() => {
           if (window.confirm('Supprimer la ligne ?')) {
@@ -63,22 +53,20 @@ type ServiceProvisionsProps = {
 };
 const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisionsProps) => (
   <>
-    {serviceProvisions.map(({ id, heading, details, hours }) => (
+    {serviceProvisions.map((serviceProvision) => (
       <ServiceProvisionRow
-        key={id}
-        heading={heading}
-        details={details}
-        hours={hours}
+        key={serviceProvision.id}
+        serviceProvision={serviceProvision}
         rate={rate}
-        fieldUpdater={(fieldName: string) => (value: string | number) => {
+        onChange={(updatedServiceProvision: ServiceProvision) => {
           onChange(serviceProvisions.map((row) =>
-            row.id === id
-              ? { ...row, [fieldName]: value }
+            row.id === serviceProvision.id
+              ? { ...updatedServiceProvision, id: serviceProvision.id }
               : row
           ));
         }}
         onDelete={() => {
-          onChange(reject(serviceProvisions, { id }));
+          onChange(reject(serviceProvisions, { id: serviceProvision.id }));
         }}
       />
     ))}
