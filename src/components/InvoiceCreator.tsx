@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Modal, { ModalInput, ModalInputType } from './Modal';
 import { useInvoices } from '../hooks';
 
-const DEFAULT_INVOICE_NUMBER = 20210000;
+const DEFAULT_INVOICE_NUMBER = 20210001;
 const DEFAULT_INVOICE_RATE = 50;
 
 type InvoiceCreatorProps = {
