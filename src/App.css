@@ -128,20 +128,6 @@ header::after {
   justify-content: center;
 }
 
-.EditableContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.EditableField {
-  flex: 1 0;
-}
-
-.EditableButtons {
-  flex: 0 1;
-}
-
 hr {
   width: 90%;
 }
