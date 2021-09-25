@@ -31,7 +31,7 @@ const NavBar = ({ currentInvoiceId, setCurrentInvoiceId }: NavBarProps) => {
               />
             </li>
             <li>
-              <InvoiceCreator onCreate={onInvoiceCreate} />
+              <InvoiceCreator invoices={invoices} onCreate={onInvoiceCreate} />
             </li>
             <li>
               <button

@@ -1,16 +1,16 @@
 import { maxBy } from 'lodash';
 import { useState } from 'react';
+import { Invoice } from '../hooks';
 import Modal, { ModalInput, ModalInputType } from './Modal';
-import { useInvoices } from '../hooks';
 
 const DEFAULT_INVOICE_NUMBER = 20210001;
 const DEFAULT_INVOICE_RATE = 50;
 
 type InvoiceCreatorProps = {
+  invoices: Array<Invoice>,
   onCreate: Function,
 };
-const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
-  const [invoices] = useInvoices();
+const InvoiceCreator = ({ invoices, onCreate }: InvoiceCreatorProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [numberInput, setNumberInput] = useState(DEFAULT_INVOICE_NUMBER);
   const [clientInput, setClientInput] = useState('');
@@ -38,7 +38,8 @@ const InvoiceCreator = ({ onCreate }: InvoiceCreatorProps) => {
     <>
       <button onClick={() => {
         const maxInvoiceNumber = maxBy(invoices, 'number')?.number;
-        setNumberInput(maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER);
+        const nextInvoiceNumber = maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER;
+        setNumberInput(nextInvoiceNumber);
         setIsModalOpen(true);
       }} disabled={isModalOpen}>
         ➕ Nouvelle facture
