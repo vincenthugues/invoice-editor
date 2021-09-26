@@ -18,6 +18,12 @@ export const getNewInvoiceDefaultNumber = (invoices: Array<Invoice>) => {
   return maxMonthInvoiceNumber ? maxMonthInvoiceNumber + 1 : Number(`${invoiceYearMonthStr}01`);
 };
 
+export const getNewInvoiceDefaultRate = (invoices: Array<Invoice>) => {
+  const latestInvoice = maxBy(invoices, 'date');
+
+  return latestInvoice?.rate || DEFAULT_INVOICE_RATE;
+};
+
 type InvoiceCreatorProps = {
   invoices: Array<Invoice>,
   onCreate: Function,
@@ -50,6 +56,7 @@ const InvoiceCreator = ({ invoices, onCreate }: InvoiceCreatorProps) => {
     <>
       <button onClick={() => {
         setNumberInput(getNewInvoiceDefaultNumber(invoices));
+        setRateInput(getNewInvoiceDefaultRate(invoices));
         setIsModalOpen(true);
       }} disabled={isModalOpen}>
         ➕ Nouvelle facture
