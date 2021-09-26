@@ -6,6 +6,18 @@ import Modal, { ModalInput, ModalInputType } from './Modal';
 const DEFAULT_INVOICE_NUMBER = 20210001;
 const DEFAULT_INVOICE_RATE = 50;
 
+export const getNewInvoiceDefaultNumber = (invoices: Array<Invoice>) => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const invoiceYearMonthStr = `${year}${month}`;
+
+  const monthInvoices = invoices.filter(({ number }) => String(number).startsWith(invoiceYearMonthStr));
+  const maxMonthInvoiceNumber = maxBy(monthInvoices, 'number')?.number;
+
+  return maxMonthInvoiceNumber ? maxMonthInvoiceNumber + 1 : Number(`${invoiceYearMonthStr}01`);
+};
+
 type InvoiceCreatorProps = {
   invoices: Array<Invoice>,
   onCreate: Function,
@@ -37,9 +49,7 @@ const InvoiceCreator = ({ invoices, onCreate }: InvoiceCreatorProps) => {
   return (
     <>
       <button onClick={() => {
-        const maxInvoiceNumber = maxBy(invoices, 'number')?.number;
-        const nextInvoiceNumber = maxInvoiceNumber ? maxInvoiceNumber + 1 : DEFAULT_INVOICE_NUMBER;
-        setNumberInput(nextInvoiceNumber);
+        setNumberInput(getNewInvoiceDefaultNumber(invoices));
         setIsModalOpen(true);
       }} disabled={isModalOpen}>
         ➕ Nouvelle facture
