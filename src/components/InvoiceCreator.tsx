@@ -10,12 +10,16 @@ export const getNewInvoiceDefaultNumber = (invoices: Array<Invoice>) => {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
-  const invoiceYearMonthStr = `${year}${month}`;
+  const getLastTwoDigits = (number: number) => number % 100;
 
-  const monthInvoices = invoices.filter(({ number }) => String(number).startsWith(invoiceYearMonthStr));
-  const maxMonthInvoiceNumber = maxBy(monthInvoices, 'number')?.number;
+  const yearInvoices = invoices.filter(({ number }) => String(number).startsWith(`${year}`));
+  const maxYearInvoice = maxBy(yearInvoices, ({ number }) => getLastTwoDigits(number));
 
-  return maxMonthInvoiceNumber ? maxMonthInvoiceNumber + 1 : Number(`${invoiceYearMonthStr}01`);
+  const invoiceNumberSuffix = maxYearInvoice
+    ? String(getLastTwoDigits(maxYearInvoice.number) + 1).padStart(2, '0')
+    : '01';
+
+  return Number(`${year}${month}${invoiceNumberSuffix}`);
 };
 
 export const getNewInvoiceDefaultRate = (invoices: Array<Invoice>) => {

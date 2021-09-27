@@ -14,39 +14,31 @@ describe('getNewInvoiceDefaultNumber', () => {
 
   beforeAll(() => {
     jest.useFakeTimers('modern');
-    jest.setSystemTime(new Date('2021-01-30'));
+    jest.setSystemTime(new Date('2021-06-30'));
   });
 
   afterAll(() => {
     jest.useRealTimers();
   });
 
-  it('returns the first invoice number if there are no other invoices for that month', () => {
+  it('returns the first invoice number if there are no other invoices for that year', () => {
     const invoices = [
       { ...mockInvoice, number: 20201201 },
     ];
-    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210101);
+    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210601);
   });
 
   it('returns the first invoice number if there are no other invoices', () => {
-    const invoices = [];
-    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210101);
+    const invoices: Array<Invoice> = [];
+    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210601);
   });
 
-  it('returns the next invoice number if there are other invoices for that month', () => {
+  it('returns the next invoice number if there are other invoices for that year', () => {
     const invoices = [
       { ...mockInvoice, number: 20210101 },
-      { ...mockInvoice, number: 20210102 },
+      { ...mockInvoice, number: 20210104 },
     ];
-    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210103);
-  });
-
-  it('always returns a higher number than the other invoice numbers for that month', () => {
-    const invoices = [
-      { ...mockInvoice, number: 20210101 },
-      { ...mockInvoice, number: 20210107 },
-    ];
-    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210108);
+    expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210605);
   });
 });
 
@@ -71,7 +63,7 @@ describe('getNewInvoiceDefaultRate', () => {
   });
 
   it('returns the default invoice rate if there is no previous invoice', () => {
-    const invoices = [];
+    const invoices: Array<Invoice> = [];
     expect(getNewInvoiceDefaultRate(invoices)).toBe(50);
   });
 });
