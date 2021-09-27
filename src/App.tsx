@@ -2,20 +2,21 @@ import { useState } from 'react';
 import './App.css';
 import InvoiceSelector from './components/InvoiceSelector';
 import InvoiceCreator from './components/InvoiceCreator';
+import InvoiceDuplicator from './components/InvoiceDuplicator';
 import PersonalInfoEditor from './components/PersonalInfoEditor';
 import InvoiceEditor from './components/InvoiceEditor';
 import { Invoice, useInvoices } from './hooks';
 
 type NavBarProps = {
-  currentInvoiceId: number | null,
+  currentInvoiceId?: number,
   setCurrentInvoiceId: Function,
 };
 const NavBar = ({ currentInvoiceId, setCurrentInvoiceId }: NavBarProps) => {
   const [invoices, createInvoice, deleteInvoice] = useInvoices();
 
-  const onInvoiceChange = (id: number | null) => { setCurrentInvoiceId(id); };
+  const onInvoiceChange = (id?: number) => { setCurrentInvoiceId(id); };
   const onInvoiceCreate = (newInvoice: Invoice) => { const id = createInvoice(newInvoice); setCurrentInvoiceId(id); };
-  const onInvoiceDelete = (id: number) => { deleteInvoice(id); setCurrentInvoiceId(null); };
+  const onInvoiceDelete = (id: number) => { deleteInvoice(id); setCurrentInvoiceId(undefined); };
 
   return (
     <header className="no-print">
@@ -32,6 +33,9 @@ const NavBar = ({ currentInvoiceId, setCurrentInvoiceId }: NavBarProps) => {
             </li>
             <li>
               <InvoiceCreator invoices={invoices} onCreate={onInvoiceCreate} />
+            </li>
+            <li>
+              <InvoiceDuplicator currentInvoiceId={currentInvoiceId} invoices={invoices} onCreate={onInvoiceCreate} />
             </li>
             <li>
               <button
@@ -57,7 +61,7 @@ const NavBar = ({ currentInvoiceId, setCurrentInvoiceId }: NavBarProps) => {
 };
 
 const App = () => {
-  const [currentInvoiceId, setCurrentInvoiceId] = useState<number | null>(null);
+  const [currentInvoiceId, setCurrentInvoiceId] = useState();
 
   return (
     <div className="App">

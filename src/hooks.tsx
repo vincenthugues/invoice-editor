@@ -78,10 +78,10 @@ export const useInvoices = () => {
   const createInvoice = (invoiceDraft: InvoiceDraft): number => {
     const newId = getMaxInvoiceId(invoices) + 1;
     const newInvoice = {
+      serviceProvisions: [],
       ...invoiceDraft,
       id: newId,
       date: new Date(),
-      serviceProvisions: [],
     } as Invoice;
 
     const updatedInvoices = [...invoices, newInvoice];

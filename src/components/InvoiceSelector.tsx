@@ -2,7 +2,7 @@ import { Invoice } from '../hooks';
 
 type InvoiceSelectorProps = {
   invoices: Array<Invoice>,
-  selectedId: number | null,
+  selectedId?: number,
   onChange: Function,
 };
 const InvoiceSelector = ({ invoices, selectedId, onChange }: InvoiceSelectorProps) => (
