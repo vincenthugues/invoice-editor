@@ -1,32 +1,7 @@
-import { maxBy } from 'lodash';
 import { useState } from 'react';
 import { Invoice } from '../hooks';
+import { DEFAULT_INVOICE_RATE, getNewInvoiceDefaultNumber } from '../utils';
 import Modal, { ModalInput, ModalInputType } from './Modal';
-
-const DEFAULT_INVOICE_NUMBER = 20210001;
-const DEFAULT_INVOICE_RATE = 50;
-
-export const getNewInvoiceDefaultNumber = (invoices: Array<Invoice>) => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const getLastTwoDigits = (number: number) => number % 100;
-
-  const yearInvoices = invoices.filter(({ number }) => String(number).startsWith(`${year}`));
-  const maxYearInvoice = maxBy(yearInvoices, ({ number }) => getLastTwoDigits(number));
-
-  const invoiceNumberSuffix = maxYearInvoice
-    ? String(getLastTwoDigits(maxYearInvoice.number) + 1).padStart(2, '0')
-    : '01';
-
-  return Number(`${year}${month}${invoiceNumberSuffix}`);
-};
-
-export const getNewInvoiceDefaultRate = (invoices: Array<Invoice>) => {
-  const latestInvoice = maxBy(invoices, 'date');
-
-  return latestInvoice?.rate || DEFAULT_INVOICE_RATE;
-};
 
 type InvoiceDuplicatorProps = {
   currentInvoiceId?: number,
@@ -36,7 +11,7 @@ type InvoiceDuplicatorProps = {
 const InvoiceDuplicator = ({ currentInvoiceId, invoices, onCreate }: InvoiceDuplicatorProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentInvoice = invoices.find(({ id }) => id === currentInvoiceId);
-  const [numberInput, setNumberInput] = useState(DEFAULT_INVOICE_NUMBER);
+  const [numberInput, setNumberInput] = useState(1);
   const [clientInput, setClientInput] = useState('');
   const [patientInput, setPatientInput] = useState('');
   const [rateInput, setRateInput] = useState(DEFAULT_INVOICE_RATE);
