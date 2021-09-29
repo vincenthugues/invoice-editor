@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Invoice } from '../hooks';
 import { DEFAULT_INVOICE_RATE, getNewInvoiceDefaultNumber, getNewInvoiceDefaultRate } from '../utils';
-import Modal, { ModalInput, ModalInputType } from './Modal';
+import Modal from './Modal';
+import ModalInput, { ModalInputType } from './ModalInput';
 
 type InvoiceCreatorProps = {
   invoices: Array<Invoice>,
@@ -33,15 +34,18 @@ const InvoiceCreator = ({ invoices, onCreate }: InvoiceCreatorProps) => {
 
   return (
     <>
-      <button onClick={() => {
-        setNumberInput(getNewInvoiceDefaultNumber(invoices));
-        setRateInput(getNewInvoiceDefaultRate(invoices));
-        setIsModalOpen(true);
-      }} disabled={isModalOpen}>
+      <button
+        onClick={() => {
+          setNumberInput(getNewInvoiceDefaultNumber(invoices));
+          setRateInput(getNewInvoiceDefaultRate(invoices));
+          setIsModalOpen(true);
+        }}
+        disabled={isModalOpen}
+      >
         ➕ Nouvelle facture
       </button>
       {isModalOpen && (
-        <Modal title="Nouvelle facture" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)} isFormValid={isFormValid as boolean}>
+        <Modal title="Nouvelle facture" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)} isFormValid={isFormValid}>
           <ModalInput type={ModalInputType.NumberInput} label="Numéro" defaultValue={numberInput} onChange={setNumberInput} />
           <ModalInput label="Client" size={24} defaultValue={clientInput} onChange={setClientInput} />
           <ModalInput label="Patient" size={24} defaultValue={patientInput} onChange={setPatientInput} />

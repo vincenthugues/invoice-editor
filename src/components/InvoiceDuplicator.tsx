@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Invoice } from '../hooks';
 import { DEFAULT_INVOICE_RATE, getNewInvoiceDefaultNumber } from '../utils';
-import Modal, { ModalInput, ModalInputType } from './Modal';
+import Modal from './Modal';
+import ModalInput, { ModalInputType } from './ModalInput';
 
 type InvoiceDuplicatorProps = {
   currentInvoiceId?: number,

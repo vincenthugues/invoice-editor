@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ServiceProvision } from '../hooks';
-import Modal, { ModalInput, ModalInputType } from './Modal';
+import Modal from './Modal';
+import ModalInput, { ModalInputType } from './ModalInput';
 
 type ServiceProvisionEditorProps = {
   serviceProvision: ServiceProvision,

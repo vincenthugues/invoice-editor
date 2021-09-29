@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { maxBy } from 'lodash';
-import Modal, { ModalInput, ModalInputType } from './Modal';
+import Modal from './Modal';
+import ModalInput, { ModalInputType } from './ModalInput';
 import { ServiceProvision } from '../hooks';
 
 type ServiceProvisionCreatorProps = {

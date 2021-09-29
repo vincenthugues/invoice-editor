@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import Modal, { ModalInput, ModalInputType } from './Modal';
+import Modal from './Modal';
+import ModalInput, { ModalInputType } from './ModalInput';
 import { usePersonalInfo } from '../hooks';
 
 const PersonalInfoEditor = () => {
