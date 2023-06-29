@@ -1,19 +1,28 @@
-import InvoiceSelector from './InvoiceSelector';
+import { useInvoices } from '../hooks';
+import { Invoice } from '../types';
 import InvoiceCreator from './InvoiceCreator';
 import InvoiceDuplicator from './InvoiceDuplicator';
+import InvoiceSelector from './InvoiceSelector';
 import PersonalInfoEditor from './PersonalInfoEditor';
-import { Invoice, useInvoices } from '../hooks';
 
 type NavBarProps = {
-  currentInvoiceId?: number,
-  setCurrentInvoiceId: Function,
+  currentInvoiceId?: number;
+  setCurrentInvoiceId: Function;
 };
 const NavBar = ({ currentInvoiceId, setCurrentInvoiceId }: NavBarProps) => {
   const [invoices, createInvoice, deleteInvoice] = useInvoices();
 
-  const onInvoiceChange = (id?: number) => { setCurrentInvoiceId(id); };
-  const onInvoiceCreate = (newInvoice: Invoice) => { const id = createInvoice(newInvoice); setCurrentInvoiceId(id); };
-  const onInvoiceDelete = (id: number) => { deleteInvoice(id); setCurrentInvoiceId(undefined); };
+  const onInvoiceChange = (id?: number) => {
+    setCurrentInvoiceId(id);
+  };
+  const onInvoiceCreate = (newInvoice: Invoice) => {
+    const id = createInvoice(newInvoice);
+    setCurrentInvoiceId(id);
+  };
+  const onInvoiceDelete = (id: number) => {
+    deleteInvoice(id);
+    setCurrentInvoiceId(undefined);
+  };
 
   return (
     <header className="no-print">
@@ -32,12 +41,19 @@ const NavBar = ({ currentInvoiceId, setCurrentInvoiceId }: NavBarProps) => {
               <InvoiceCreator invoices={invoices} onCreate={onInvoiceCreate} />
             </li>
             <li>
-              <InvoiceDuplicator currentInvoiceId={currentInvoiceId} invoices={invoices} onCreate={onInvoiceCreate} />
+              <InvoiceDuplicator
+                currentInvoiceId={currentInvoiceId}
+                invoices={invoices}
+                onCreate={onInvoiceCreate}
+              />
             </li>
             <li>
               <button
                 onClick={() => {
-                  if (currentInvoiceId && window.confirm('Supprimer définitivement la facture ?')) {
+                  if (
+                    currentInvoiceId &&
+                    window.confirm('Supprimer définitivement la facture ?')
+                  ) {
                     onInvoiceDelete(currentInvoiceId);
                   }
                 }}

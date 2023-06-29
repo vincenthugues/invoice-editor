@@ -1,11 +1,15 @@
-import { Invoice } from '../hooks';
+import { Invoice } from '../types';
 
 type InvoiceSelectorProps = {
-  invoices: Array<Invoice>,
-  selectedId?: number,
-  onChange: Function,
+  invoices: Invoice[];
+  selectedId?: number;
+  onChange: Function;
 };
-const InvoiceSelector = ({ invoices, selectedId, onChange }: InvoiceSelectorProps) => (
+const InvoiceSelector = ({
+  invoices,
+  selectedId,
+  onChange,
+}: InvoiceSelectorProps) => (
   <div className="InvoiceSelector">
     <select
       value={selectedId || ''}

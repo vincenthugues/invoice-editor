@@ -1,4 +1,4 @@
-import { Invoice } from '../hooks';
+import { Invoice } from '../types';
 import { getNewInvoiceDefaultNumber } from './getNewInvoiceDefaultNumber';
 
 describe('getNewInvoiceDefaultNumber', () => {
@@ -27,7 +27,7 @@ describe('getNewInvoiceDefaultNumber', () => {
   });
 
   it('returns the first invoice number if there are no other invoices', () => {
-    const invoices: Array<Invoice> = [];
+    const invoices: Invoice[] = [];
     expect(getNewInvoiceDefaultNumber(invoices)).toBe(20210601);
   });
 

@@ -1,13 +1,13 @@
 import { reject } from 'lodash';
-import { ServiceProvision } from '../hooks';
+import { ServiceProvision } from '../types';
 import { formatCurrency } from '../utils';
 import ServiceProvisionEditor from './ServiceProvisionEditor';
 
 type ServiceProvisionRowProps = {
-  serviceProvision: ServiceProvision,
-  rate: number,
-  onChange: Function,
-  onDelete: Function,
+  serviceProvision: ServiceProvision;
+  rate: number;
+  onChange: Function;
+  onDelete: Function;
 };
 const ServiceProvisionRow = ({
   serviceProvision,
@@ -22,9 +22,7 @@ const ServiceProvisionRow = ({
       {serviceProvision.details}
     </td>
     <td>
-      <div className="CellRow">
-        {serviceProvision.hours}
-      </div>
+      <div className="CellRow">{serviceProvision.hours}</div>
     </td>
     <td align="center">{formatCurrency(rate)}</td>
     <td align="center">{formatCurrency(serviceProvision.hours * rate)}</td>
@@ -47,11 +45,15 @@ const ServiceProvisionRow = ({
 );
 
 type ServiceProvisionsProps = {
-  serviceProvisions: Array<ServiceProvision>,
-  rate: number,
-  onChange: Function,
+  serviceProvisions: ServiceProvision[];
+  rate: number;
+  onChange: Function;
 };
-const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisionsProps) => (
+const ServiceProvisions = ({
+  serviceProvisions,
+  onChange,
+  rate,
+}: ServiceProvisionsProps) => (
   <>
     {serviceProvisions.map((serviceProvision) => (
       <ServiceProvisionRow
@@ -59,11 +61,13 @@ const ServiceProvisions = ({ serviceProvisions, onChange, rate }: ServiceProvisi
         serviceProvision={serviceProvision}
         rate={rate}
         onChange={(updatedServiceProvision: ServiceProvision) => {
-          onChange(serviceProvisions.map((row) =>
-            row.id === serviceProvision.id
-              ? { ...updatedServiceProvision, id: serviceProvision.id }
-              : row
-          ));
+          onChange(
+            serviceProvisions.map((row) =>
+              row.id === serviceProvision.id
+                ? { ...updatedServiceProvision, id: serviceProvision.id }
+                : row
+            )
+          );
         }}
         onDelete={() => {
           onChange(reject(serviceProvisions, { id: serviceProvision.id }));

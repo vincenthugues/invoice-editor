@@ -1,4 +1,4 @@
-import { Invoice } from '../hooks';
+import { Invoice } from '../types';
 import { getNewInvoiceDefaultRate } from './getNewInvoiceDefaultRate';
 
 describe('getNewInvoiceDefaultRate', () => {
@@ -22,7 +22,7 @@ describe('getNewInvoiceDefaultRate', () => {
   });
 
   it('returns the default invoice rate if there is no previous invoice', () => {
-    const invoices: Array<Invoice> = [];
+    const invoices: Invoice[] = [];
     expect(getNewInvoiceDefaultRate(invoices)).toBe(5000);
   });
 });

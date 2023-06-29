@@ -1,14 +1,17 @@
-import { useState } from 'react';
 import { maxBy } from 'lodash';
+import { useState } from 'react';
+import { ServiceProvision } from '../types';
 import Modal from './Modal';
 import ModalInput, { ModalInputType } from './ModalInput';
-import { ServiceProvision } from '../hooks';
 
 type ServiceProvisionCreatorProps = {
-  serviceProvisions: Array<ServiceProvision>,
-  onCreate: Function,
+  serviceProvisions: ServiceProvision[];
+  onCreate: Function;
 };
-const ServiceProvisionCreator = ({ serviceProvisions, onCreate }: ServiceProvisionCreatorProps) => {
+const ServiceProvisionCreator = ({
+  serviceProvisions,
+  onCreate,
+}: ServiceProvisionCreatorProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [headingInput, setHeadingInput] = useState('');
   const [detailsInput, setDetailsInput] = useState('');
@@ -27,9 +30,7 @@ const ServiceProvisionCreator = ({ serviceProvisions, onCreate }: ServiceProvisi
     setDetailsInput('');
     setHoursInput(1);
   };
-  const isFormValid = !!headingInput
-    && !!detailsInput
-    && hoursInput > 0;
+  const isFormValid = !!headingInput && !!detailsInput && hoursInput > 0;
 
   return (
     <>
@@ -41,10 +42,34 @@ const ServiceProvisionCreator = ({ serviceProvisions, onCreate }: ServiceProvisi
         Nouvelle ligne
       </button>
       {isModalOpen && (
-        <Modal title="Nouveau service" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)} isFormValid={isFormValid}>
-          <ModalInput label="Titre" size={44} defaultValue={headingInput} onChange={setHeadingInput} />
-          <ModalInput type={ModalInputType.TextArea} label="Détails" rows={5} cols={40} defaultValue={detailsInput} onChange={setDetailsInput} />
-          <ModalInput type={ModalInputType.NumberInput} min={.25} step={.25} label="Heures" defaultValue={hoursInput} onChange={setHoursInput} />
+        <Modal
+          title="Nouveau service"
+          onSubmit={onSubmit}
+          onClose={() => setIsModalOpen(false)}
+          isFormValid={isFormValid}
+        >
+          <ModalInput
+            label="Titre"
+            size={44}
+            defaultValue={headingInput}
+            onChange={setHeadingInput}
+          />
+          <ModalInput
+            type={ModalInputType.TextArea}
+            label="Détails"
+            rows={5}
+            cols={40}
+            defaultValue={detailsInput}
+            onChange={setDetailsInput}
+          />
+          <ModalInput
+            type={ModalInputType.NumberInput}
+            min={0.25}
+            step={0.25}
+            label="Heures"
+            defaultValue={hoursInput}
+            onChange={setHoursInput}
+          />
         </Modal>
       )}
     </>

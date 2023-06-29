@@ -1,15 +1,22 @@
 import { render, screen } from '@testing-library/react';
-import { usePersonalInfo } from './hooks';
-import { getValueFromStorage, setValueInStorage } from './utils';
+import { usePersonalInfo } from './usePersonalInfo';
+import { getValueFromStorage, setValueInStorage } from '../utils';
 
-jest.mock('./utils');
+jest.mock('../utils');
 
 describe('usePersonalInfo', () => {
   const TestComponent = () => {
     const [personalInfo, setPersonalInfo] = usePersonalInfo();
     const { name, personalDetails, contactInfo, siret } = personalInfo || {};
 
-    return <div>{name}{personalDetails}{contactInfo}{siret}</div>;
+    return (
+      <div>
+        {name}
+        {personalDetails}
+        {contactInfo}
+        {siret}
+      </div>
+    );
   };
 
   it('sets default values in storage when no value exists', () => {
@@ -24,7 +31,10 @@ describe('usePersonalInfo', () => {
 
     expect(getValueFromStorage).toHaveBeenCalledTimes(1);
     expect(setValueInStorage).toHaveBeenCalledTimes(1);
-    expect(setValueInStorage).toHaveBeenCalledWith('personalInfo', DEFAULT_PERSONAL_INFO);
+    expect(setValueInStorage).toHaveBeenCalledWith(
+      'personalInfo',
+      DEFAULT_PERSONAL_INFO
+    );
   });
 
   it('gets stored values', () => {

@@ -37,11 +37,39 @@ const PersonalInfoEditor = () => {
         ✏️ Informations personnelles
       </button>
       {isModalOpen && (
-        <Modal title="Informations personnelles" onSubmit={onSubmit} onClose={() => setIsModalOpen(false)}>
-          <ModalInput label="Nom" size={44} defaultValue={nameInput} onChange={setNameInput} />
-          <ModalInput type={ModalInputType.TextArea} label="Détails" rows={5} cols={40} defaultValue={personalDetailsInput} onChange={setPersonalDetailsInput} />
-          <ModalInput type={ModalInputType.TextArea} label="Contact" rows={3} cols={40} defaultValue={contactInfoInput} onChange={setContactInfoInput} />
-          <ModalInput label="Siret" size={44} defaultValue={siretInput} onChange={setSiretInput} />
+        <Modal
+          title="Informations personnelles"
+          onSubmit={onSubmit}
+          onClose={() => setIsModalOpen(false)}
+        >
+          <ModalInput
+            label="Nom"
+            size={44}
+            defaultValue={nameInput}
+            onChange={setNameInput}
+          />
+          <ModalInput
+            type={ModalInputType.TextArea}
+            label="Détails"
+            rows={5}
+            cols={40}
+            defaultValue={personalDetailsInput}
+            onChange={setPersonalDetailsInput}
+          />
+          <ModalInput
+            type={ModalInputType.TextArea}
+            label="Contact"
+            rows={3}
+            cols={40}
+            defaultValue={contactInfoInput}
+            onChange={setContactInfoInput}
+          />
+          <ModalInput
+            label="Siret"
+            size={44}
+            defaultValue={siretInput}
+            onChange={setSiretInput}
+          />
         </Modal>
       )}
     </>

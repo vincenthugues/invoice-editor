@@ -1,9 +1,10 @@
 import { sum } from 'lodash';
-import InvoiceHeader from './InvoiceHeader' ;
-import ServiceProvisions from './ServiceProvisions';
-import ServiceProvisionCreator from './ServiceProvisionCreator';
-import { ServiceProvision, useInvoice, usePersonalInfo } from '../hooks';
+import { usePersonalInfo, useInvoice } from '../hooks';
+import { ServiceProvision } from '../types';
 import { formatCurrency } from '../utils';
+import InvoiceHeader from './InvoiceHeader';
+import ServiceProvisionCreator from './ServiceProvisionCreator';
+import ServiceProvisions from './ServiceProvisions';
 
 type InvoiceEditorProps = {
   invoiceId: number;
@@ -48,7 +49,7 @@ const InvoiceEditor = ({ invoiceId }: InvoiceEditorProps) => {
           <ServiceProvisions
             serviceProvisions={serviceProvisions}
             rate={rate}
-            onChange={(updatedServiceProvisions: Array<ServiceProvision>) => {
+            onChange={(updatedServiceProvisions: ServiceProvision[]) => {
               updateInvoice({
                 ...invoice,
                 serviceProvisions: updatedServiceProvisions,

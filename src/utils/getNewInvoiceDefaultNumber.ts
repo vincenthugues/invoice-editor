@@ -1,7 +1,7 @@
 import { maxBy } from 'lodash';
-import { Invoice } from '../hooks';
+import { Invoice } from '../types';
 
-export const getNewInvoiceDefaultNumber = (invoices: Array<Invoice>) => {
+export const getNewInvoiceDefaultNumber = (invoices: Invoice[]) => {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');

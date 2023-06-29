@@ -2,12 +2,17 @@ import { usePersonalInfo } from '../hooks';
 import { addDaysToDate } from '../utils';
 
 type InvoiceHeaderProps = {
-  invoiceNumber: number,
-  date: Date,
-  clientName: string,
-  patientName: string,
+  invoiceNumber: number;
+  date: Date;
+  clientName: string;
+  patientName: string;
 };
-const InvoiceHeader = ({ invoiceNumber, date, clientName, patientName }: InvoiceHeaderProps) => {
+const InvoiceHeader = ({
+  invoiceNumber,
+  date,
+  clientName,
+  patientName,
+}: InvoiceHeaderProps) => {
   const [personalInfo] = usePersonalInfo();
 
   if (!personalInfo) return null;

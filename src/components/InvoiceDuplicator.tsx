@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Invoice } from '../hooks';
+import { Invoice } from '../types';
 import { DEFAULT_INVOICE_RATE, getNewInvoiceDefaultNumber } from '../utils';
 import Modal from './Modal';
 import ModalInput, { ModalInputType } from './ModalInput';
 
 type InvoiceDuplicatorProps = {
   currentInvoiceId?: number;
-  invoices: Array<Invoice>;
+  invoices: Invoice[];
   onCreate: Function;
 };
 const InvoiceDuplicator = ({

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Invoice } from '../hooks';
+import { Invoice } from '../types';
 import {
   DEFAULT_INVOICE_RATE,
   getNewInvoiceDefaultNumber,
@@ -9,7 +9,7 @@ import Modal from './Modal';
 import ModalInput, { ModalInputType } from './ModalInput';
 
 type InvoiceCreatorProps = {
-  invoices: Array<Invoice>;
+  invoices: Invoice[];
   onCreate: Function;
 };
 const InvoiceCreator = ({ invoices, onCreate }: InvoiceCreatorProps) => {
