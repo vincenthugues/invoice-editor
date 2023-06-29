@@ -7,7 +7,7 @@ describe('getMaxInvoiceId', () => {
       date: new Date('2021-01-01'),
       clientName: 'M. A',
       patientName: 'Abc',
-      rate: 50,
+      rate: 5000,
       serviceProvisions: [],
     };
     const invoices = [

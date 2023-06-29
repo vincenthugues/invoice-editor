@@ -8,7 +8,7 @@ describe('getNewInvoiceDefaultNumber', () => {
     date: new Date('2021-01-30'),
     clientName: '',
     patientName: '',
-    rate: 50,
+    rate: 5000,
     serviceProvisions: [],
   };
 
